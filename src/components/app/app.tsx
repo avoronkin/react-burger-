@@ -1,29 +1,26 @@
-import React from 'react';
-import { AppHeader } from '../app-header/app-header'
-import { BurgerConstructor } from  '../burger-constructor/burger-constructor'
-import { BurgerIngredients } from '../burger-ingredients/burger-ingredients'
+import { AppHeader } from '../app-header'
+import { BurgerConstructor } from  '../burger-constructor'
+import { BurgerIngredients } from '../burger-ingredients'
 import styles from './styles.module.css'
+import { ingredients } from '../../utils/data'
 
-function App() {
+export const App = () => {
   
   return (
-      <div className={styles.app}>
-        <div style={{width: '80%'}}>
+      <div className={styles.page}>
+        <div className={styles.content}>
 
           <AppHeader />
           <h2 className='text text_type_main-large p-5'>Соберите бургер</h2>
-          <main style={{display: 'flex'}}>
-            <section className='pr-4' style={{flex: '50%'}}>
-              <BurgerIngredients />
+          <main className={styles.main}>
+            <section className={`${styles.burgerIngredients} pr-4`}>
+              <BurgerIngredients ingredients={ingredients} />
             </section>
-            <section style={{flex: '50%'}}>
-              <BurgerConstructor />
+            <section className={styles.burgerConstructor}>
+              <BurgerConstructor ingredients={ingredients}/>
             </section>
-
           </main>
         </div>
       </div>
-  );
+  )
 }
-
-export default App;

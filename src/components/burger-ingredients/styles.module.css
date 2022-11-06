@@ -1,6 +1,18 @@
+.tabs {
+    display: flex;
+}
+
+.ingredientsWrapper {
+    width: 600px;
+    height: 650px;
+    overflow-y: scroll;
+}
+
 .ingredients {
     display: flex;
     flex-wrap: wrap;
-    /* flex-direction: column;
-    justify-content: flex-start; */
+}
+
+.ingredient {
+    width: '50%'
 }
