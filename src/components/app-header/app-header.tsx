@@ -7,7 +7,7 @@ import {
 import styles from './styles.module.css'
 
 export const AppHeader = () => {
-    const navItemClass = [styles.nav_item, 'p-5'].join(' ')
+    const navItemClass = `${styles.nav_item} p-5`
     
     return (
         <header>

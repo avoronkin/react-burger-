@@ -2,12 +2,13 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Ingredients } from './ingredients'
 import styles from './styles.module.css'
 import { Ingredient } from '../../utils/types'
-import { ingredientsPropsType } from '../../utils/prop-types'
+import { IngredientFC } from './ingredient'
+import PropTypes from 'prop-types'
 
 export const BurgerIngredients = ({ ingredients }: { ingredients: Ingredient[] }) => {
     return (
         <div>
-            <nav className={`${styles.tabs} pt-5`}>
+            <nav className={`${styles.tabs} pb-5`}>
                 <Tab 
                     active={true}
                     value='buh'
@@ -51,5 +52,5 @@ export const BurgerIngredients = ({ ingredients }: { ingredients: Ingredient[] }
 }
 
 BurgerIngredients.propTypes = {
-    ingredients: ingredientsPropsType,
+    ingredients: PropTypes.arrayOf(PropTypes.shape(IngredientFC.propTypes)),
 }

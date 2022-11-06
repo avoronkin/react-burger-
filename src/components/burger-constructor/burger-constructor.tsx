@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css'
 import { Ingredient } from '../../utils/types'
-import { ingredientsPropsType } from '../../utils/prop-types'
+import PropTypes from 'prop-types'
 
 export const BurgerConstructor = ({ ingredients }: { ingredients: Ingredient[] }) => {
     return (
@@ -50,5 +50,11 @@ export const BurgerConstructor = ({ ingredients }: { ingredients: Ingredient[] }
 }
 
 BurgerConstructor.propTypes = {
-    ingredients: ingredientsPropsType,
+    ingredients: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            price: PropTypes.number.isRequired,
+            image: PropTypes.string.isRequired
+        })
+    ),
 }
