@@ -12,4 +12,3 @@ export interface Ingredient {
     image_large: string,
     __v: number
  }
- 
