@@ -1,10 +1,16 @@
 .ingridients {
-    width: 600px;
-    height: 650px; 
-    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.ingridientsScrol {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 600px;
+    height: 650px; 
+    overflow-y: scroll;
 }
 
 .ingridient {

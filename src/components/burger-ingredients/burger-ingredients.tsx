@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 export const BurgerIngredients = ({ ingredients }: { ingredients: Ingredient[] }) => {
     return (
         <div>
-            <nav className={`${styles.tabs} pb-5`}>
+            <nav className={`${styles.tabs} pb-9`}>
                 <Tab 
                     active={true}
                     value='buh'

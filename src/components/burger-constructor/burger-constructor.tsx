@@ -9,28 +9,52 @@ import { Ingredient } from '../../utils/types'
 import PropTypes from 'prop-types'
 
 export const BurgerConstructor = ({ ingredients }: { ingredients: Ingredient[] }) => {
+    const firstIngredient = ingredients[0]
+    const lastIngredient = ingredients[ingredients.length - 1]
+
     return (
         <>
-            <div className={`${styles.ingridients} custom-scroll`}>
-
-                {ingredients.map((ingredient, index, array) => {
-                    const type = index === 0 ? 'top' : (index === array.length - 1) ? 'bottom' : undefined
-                    const extraClass = type ? 'pl-6' : ''
-
-                    return (
-                        <div className={`${extraClass} ${styles.ingridient}`} key={ingredient._id}>
-                            {!type && <DragIcon type='primary' />}
-                            <ConstructorElement
-                                text={ingredient.name}
-                                thumbnail={ingredient.image}
-                                price={ingredient.price}
-                                type={type}
-                                isLocked={ingredient.price % 3 === 0}
-                                extraClass={'ml-2'}
-                            />
-                        </div>
-                    )
-                })}
+            <div className={`${styles.ingridients}`}>
+                <div className={`${styles.ingridient} pl-6`}>
+                    <ConstructorElement
+                        text={firstIngredient.name}
+                        thumbnail={firstIngredient.image}
+                        price={firstIngredient.price}
+                        type='top'
+                        isLocked={true}
+                        extraClass={'ml-2'}
+                    />
+                </div>
+                <div className={`${styles.ingridientsScrol} custom-scroll`}>
+                    {
+                        ingredients
+                            .filter((ingredient, index, array) => index !== 0 && index !== array.length - 1)
+                            .map((ingredient) => {
+                                return (
+                                    <div className={styles.ingridient} key={ingredient._id}>
+                                        <DragIcon type='primary' />
+                                        <ConstructorElement
+                                            text={ingredient.name}
+                                            thumbnail={ingredient.image}
+                                            price={ingredient.price}
+                                            isLocked={false}
+                                            extraClass={'ml-2'}
+                                        />
+                                    </div>
+                                )
+                            })
+                    }
+                </div>
+                <div className={`${styles.ingridient} pl-6`}>
+                    <ConstructorElement
+                        text={lastIngredient.name}
+                        thumbnail={lastIngredient.image}
+                        price={lastIngredient.price}
+                        type='bottom'
+                        isLocked={true}
+                        extraClass={'ml-2'}
+                    />
+                </div>
             </div>
             <div className={`${styles.order} p-6`}>
                 <span className='text text_type_main-medium pr-4'>
