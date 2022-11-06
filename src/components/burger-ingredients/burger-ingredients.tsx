@@ -54,3 +54,4 @@ export const BurgerIngredients = ({ ingredients }: { ingredients: Ingredient[] }
 BurgerIngredients.propTypes = {
     ingredients: PropTypes.arrayOf(PropTypes.shape(IngredientFC.propTypes)),
 }
+
