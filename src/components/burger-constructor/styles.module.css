@@ -19,8 +19,15 @@
     align-items: center;
 }
 
-.order {
+.orderToolbar {
     display: flex; 
     justify-content: flex-end;
+    align-items: center;
+}
+
+.orderContent {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }

@@ -16,4 +16,28 @@
 .ingredient {
     width: 50%;
     text-align: center;
+    cursor: pointer;
+}
+
+.ingredientDetailsContent {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredientDetailsdescription {
+    max-width: 450px;
+    text-align: center;
+}
+
+.params {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.paramsRow {
+    display: flex;
+    justify-content: center;
 }
