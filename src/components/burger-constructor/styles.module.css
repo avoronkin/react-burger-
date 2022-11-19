@@ -1,0 +1,26 @@
+.ingridients {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ingridientsScrol {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 600px;
+    height: 650px; 
+    overflow-y: scroll;
+}
+
+.ingridient {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+}
+
+.order {
+    display: flex; 
+    justify-content: flex-end;
+    align-items: center;
+}
