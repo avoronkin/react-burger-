@@ -1,0 +1,32 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: #0000007d;
+    display: flex;
+}
+
+
+
+.modal {
+    margin: auto;
+    width: 90%;
+    max-width: 40rem;
+    background-color: #1c1c21;
+    border-radius: 1.5rem;
+}
+
+.modalHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.modalClose {
+    cursor: pointer;
+}

@@ -1,56 +1,60 @@
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Ingredients } from './ingredients'
-import styles from './styles.module.css'
-import { Ingredient } from '../../utils/types'
-import { IngredientFC } from './ingredient'
 import PropTypes from 'prop-types'
+import {
+    Tab
+} from '@ya.praktikum/react-developer-burger-ui-components'
+import { IIngredient } from '../../utils/types'
+import { Ingredients } from './ingredients'
+import { Ingredient } from './ingredient'
+import styles from './styles.module.css'
 
-export const BurgerIngredients = ({ ingredients }: { ingredients: Ingredient[] }) => {
+export const BurgerIngredients = ({ ingredients }: { ingredients: IIngredient[] }) => {
+    const ingridienTypes = [
+        {
+            type: 'bun',
+            name: 'Булки',
+            active: true,
+        },
+        {
+            type: 'sauce',
+            name: 'Соусы',
+            active: false,
+        },
+        {
+            type: 'main',
+            name: 'Начинки',
+            active: false,
+        },
+    ]
+
     return (
         <div>
             <nav className={`${styles.tabs} pb-9`}>
-                <Tab 
-                    active={true}
-                    value='buh'
-                    onClick={()=>{}}
-                >
-                    Булки
-                </Tab>
-                <Tab
-                    active={false}
-                    value='sauce'
-                    onClick={()=>{}}
-                >
-                    Соусы
-                </Tab>
-                <Tab
-                    active={false}
-                    value='main'
-                    onClick={()=>{}}
-                >
-                    Начинки
-                </Tab>
+                {ingridienTypes.map(({ type, name, active }) => {
+                    return (
+                        <Tab
+                            active={active}
+                            value={type}
+                            onClick={() => { }}
+                        >
+                            {name}
+                        </Tab>
+                    )
+                })}
             </nav>
             <section className={`${styles.ingredientsWrapper} custom-scroll`}>
-                <Ingredients 
-                    name='Булки' 
-                    ingredients={ingredients.filter(i => i.type === 'bun')}
-                    />
-
-                <Ingredients 
-                    name='Соусы' 
-                    ingredients={ingredients.filter(i => i.type === 'sauce')}
-                    />
-                
-                <Ingredients 
-                    name='Начинки' 
-                    ingredients={ingredients.filter(i => i.type === 'main')}
-                    />
+                {ingridienTypes.map(({ type, name }) => {
+                    return (
+                        <Ingredients
+                            name={name}
+                            ingredients={ingredients.filter(i => i.type === type)}
+                        />
+                    )
+                })}
             </section>
         </div>
     )
 }
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(PropTypes.shape(IngredientFC.propTypes)),
+    ingredients: PropTypes.arrayOf(PropTypes.shape(Ingredient.propTypes)),
 }
