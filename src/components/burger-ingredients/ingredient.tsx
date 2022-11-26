@@ -6,7 +6,7 @@ import { IIngredient } from '../../utils/types'
 import { useModal } from '../../hooks'
 import { Modal } from '../modal'
 import { IngredientDetails } from './ingredient-details'
-import styles from './styles.module.css'
+import styles from './ingredient.module.css'
 
 export const Ingredient = (props: IIngredient) => {
     const [ isModalOpen, toggleModal ] = useModal()

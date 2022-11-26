@@ -1,24 +1,3 @@
-.tabs {
-    display: flex;
-}
-
-.ingredientsWrapper {
-    width: 600px;
-    height: 650px;
-    overflow-y: scroll;
-}
-
-.ingredients {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.ingredient {
-    width: 50%;
-    text-align: center;
-    cursor: pointer;
-}
-
 .ingredientDetailsContent {
     display: flex;
     justify-content: center;

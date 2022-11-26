@@ -1,0 +1,10 @@
+.tabs {
+    display: flex;
+}
+
+.ingredientsWrapper {
+    width: 600px;
+    height: 650px;
+    overflow-y: scroll;
+}
+

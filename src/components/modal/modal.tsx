@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Portal } from '../portal'
 import { ModalOverlay } from './modal-overlay'
-import styles from './styles.module.css'
+import styles from './modal.module.css'
 
 export const Modal = ({ title, children, isOpen, handleClose }: {
   title?: string
