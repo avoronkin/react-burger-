@@ -1,14 +1,15 @@
-import PropTypes from 'prop-types'
+import { useContext } from 'react'
 import {
     Tab
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { IIngredient } from '../../utils/types'
+import { IIngredientType } from '../../utils/types'
 import { Ingredients } from './ingredients'
-import { Ingredient } from './ingredient'
-import styles from './styles.module.css'
+import { BurgerIingredientsContext } from '../../services/burger-ingredients-contexts'
+import styles from './burger-ingredients.module.css'
 
-export const BurgerIngredients = ({ ingredients }: { ingredients: IIngredient[] }) => {
-    const ingridienTypes = [
+export const BurgerIngredients = () => {
+    const [{ ingredients }] = useContext(BurgerIingredientsContext)
+    const ingridienTypes: IIngredientType[] = [
         {
             type: 'bun',
             name: 'Булки',
@@ -35,6 +36,7 @@ export const BurgerIngredients = ({ ingredients }: { ingredients: IIngredient[] 
                             active={active}
                             value={type}
                             onClick={() => { }}
+                            key={type}
                         >
                             {name}
                         </Tab>
@@ -47,14 +49,11 @@ export const BurgerIngredients = ({ ingredients }: { ingredients: IIngredient[] 
                         <Ingredients
                             name={name}
                             ingredients={ingredients.filter(i => i.type === type)}
+                            key={type}
                         />
                     )
                 })}
             </section>
         </div>
     )
-}
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(PropTypes.shape(Ingredient.propTypes)),
 }

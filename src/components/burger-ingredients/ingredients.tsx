@@ -1,14 +1,13 @@
-import PropTypes from 'prop-types'
 import { IIngredient } from '../../utils/types'
 import { Ingredient } from './ingredient'
-import styles from './styles.module.css'
+import styles from './ingredients.module.css'
 
-export const Ingredients = (props: { name: string, ingredients: IIngredient[] }) => {
+export const Ingredients = ({ name, ingredients }: { name: string, ingredients: IIngredient[] }) => {
     return (
         <>
-            <h2 className='text text_type_main-medium'>{props.name}</h2>
+            <h2 className='text text_type_main-medium'>{name}</h2>
             <section className={`${styles.ingredients} pb-10`}>
-                {props.ingredients.map((ingredient) => {
+                {ingredients.map((ingredient) => {
                     return (
                         <Ingredient {...ingredient} key={ingredient._id} />
                     )
@@ -16,9 +15,4 @@ export const Ingredients = (props: { name: string, ingredients: IIngredient[] })
             </section>
         </>
     )
-}
-
-Ingredients.propTypes = {
-    name: PropTypes.string.isRequired,
-    ingredients: PropTypes.arrayOf(PropTypes.shape(Ingredient.propTypes)),
 }

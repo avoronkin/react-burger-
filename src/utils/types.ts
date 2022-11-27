@@ -1,7 +1,9 @@
+type IngredientType = 'bun' | 'sauce' | 'main'
+
 export interface IIngredient {
     _id: string
     name: string
-    type: 'bun' | 'main' | 'sauce'
+    type: IngredientType
     proteins: number,
     fat: number,
     carbohydrates: number,
@@ -12,3 +14,10 @@ export interface IIngredient {
     image_large: string,
     __v: number
 }
+
+export interface IIngredientType {
+    type: IngredientType
+    name: string
+    active: boolean
+}
+
