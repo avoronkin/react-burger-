@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { IIngredient } from '../../utils/types'
 import { Ingredient } from './ingredient'
 import styles from './ingredients.module.css'
@@ -16,9 +15,4 @@ export const Ingredients = ({ name, ingredients }: { name: string, ingredients: 
             </section>
         </>
     )
-}
-
-Ingredients.propTypes = {
-    name: PropTypes.string.isRequired,
-    ingredients: PropTypes.arrayOf(PropTypes.shape(Ingredient.propTypes)),
 }

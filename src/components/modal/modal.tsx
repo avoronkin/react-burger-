@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Portal } from '../portal'
 import { ModalOverlay } from './modal-overlay'
@@ -35,12 +34,5 @@ export const Modal = ({ title, children, isOpen, handleClose }: {
       </ModalOverlay>
     </Portal>
   )
-}
-
-Modal.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
 }
 

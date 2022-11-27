@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import {
     ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -34,8 +33,4 @@ export const BunIngredient = ({ children }: { children?: React.ReactNode }) => {
             </div>
         </div>
     )
-}
-
-BunIngredient.propTypes = {
-    children: PropTypes.node
 }

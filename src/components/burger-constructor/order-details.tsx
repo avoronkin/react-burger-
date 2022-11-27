@@ -1,7 +1,6 @@
 import {
     CheckMarkIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types'
 import styles from './order-details.module.css'
 import { CreateOrderResponse } from '../../services/norma-api'
 
@@ -20,14 +19,4 @@ export const OrderDetails = ({ createOrderResponse }: { createOrderResponse?: Cr
             <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
         </div>
     )
-}
-
-OrderDetails.propTypes = {
-    createOrderResponse: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        order: PropTypes.shape({
-            number: PropTypes.number.isRequired
-        }).isRequired,
-        success: PropTypes.bool.isRequired,
-    })
 }
