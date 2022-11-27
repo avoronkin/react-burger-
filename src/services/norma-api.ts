@@ -39,6 +39,10 @@ export class NormaApi {
             method,
             body: body ? JSON.stringify(body) : undefined,
         })
+
+        if (!response.ok) {
+            throw new Error(`HTTP status error: ${response.status}`)
+        }
         
         return response.json()
     }

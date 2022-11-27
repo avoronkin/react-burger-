@@ -27,7 +27,7 @@ export const Modal = ({ title, children, isOpen, handleClose }: {
               <CloseIcon type="primary" onClick={handleClose} />
             </span>
           </header>
-          <main>
+          <main className='p-7 pt-4'>
             {children}
           </main>
         </section>
