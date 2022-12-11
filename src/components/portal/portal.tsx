@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { createPortal } from 'react-dom'
 import { ReactNode } from 'react'
 
@@ -9,9 +8,4 @@ export const Portal = ({ children, containerId }: { children: ReactNode, contain
     }
 
     return createPortal(children, element)
-}
-
-Portal.propTypes = {
-    children: PropTypes.node.isRequired,
-    containerId: PropTypes.string,
 }

@@ -1,15 +1,17 @@
-import { useContext } from 'react'
 import {
     Tab
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { IIngredientType } from '../../utils/types'
+import { IIngredientTab } from '../../types'
 import { Ingredients } from './ingredients'
-import { BurgerIingredientsContext } from '../../services/burger-ingredients-contexts'
+import { LoadingSpinner } from '../loading-spinner'
 import styles from './burger-ingredients.module.css'
+import { useAppSelector } from '../../hooks'
+import { ingredientsSelector } from '../../services/store/selectors'
 
 export const BurgerIngredients = () => {
-    const [{ ingredients }] = useContext(BurgerIingredientsContext)
-    const ingridienTypes: IIngredientType[] = [
+    const { ingredients, ingredientsError, ingredientsRequest } = useAppSelector(ingredientsSelector)
+
+    const ingridienTypes: IIngredientTab[] = [
         {
             type: 'bun',
             name: 'Булки',
@@ -43,17 +45,19 @@ export const BurgerIngredients = () => {
                     )
                 })}
             </nav>
-            <section className={`${styles.ingredientsWrapper} custom-scroll`}>
-                {ingridienTypes.map(({ type, name }) => {
-                    return (
-                        <Ingredients
-                            name={name}
-                            ingredients={ingredients.filter(i => i.type === type)}
-                            key={type}
-                        />
-                    )
-                })}
-            </section>
+            {ingredientsError ? <div>Ошибка при загрузке ингредиентов</div> : null}
+            {ingredientsRequest ? <LoadingSpinner /> :
+                <section className={`${styles.ingredientsWrapper} custom-scroll`}>
+                    {ingridienTypes.map(({ type, name }) => {
+                        return (
+                            <Ingredients
+                                name={name}
+                                ingredients={ingredients.filter(i => i.type === type)}
+                                key={type}
+                            />
+                        )
+                    })}
+                </section>}
         </div>
     )
 }

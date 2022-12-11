@@ -1,7 +1,7 @@
 import {
     CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { IIngredient } from '../../utils/types'
+import { IIngredient } from '../../types'
 import { useModal } from '../../hooks'
 import { Modal } from '../modal'
 import { IngredientDetails } from './ingredient-details'

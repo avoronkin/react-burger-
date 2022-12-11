@@ -1,4 +1,4 @@
-import { IIngredient } from '../../utils/types'
+import { IIngredient } from '../../types'
 import styles from './ingredient-details.module.css'
 
 export const IngredientDetails = (props: IIngredient) => {

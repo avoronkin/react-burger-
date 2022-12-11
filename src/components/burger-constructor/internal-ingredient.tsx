@@ -2,7 +2,7 @@ import {
     DragIcon,
     ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { IIngredient } from '../../utils/types'
+import { IIngredient } from '../../types'
 import styles from './burger-constructor.module.css'
 
 export const InternalIngredient = ({ ingredient }: { ingredient: IIngredient }) => {

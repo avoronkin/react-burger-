@@ -1,4 +1,4 @@
-import { IIngredient } from '../../utils/types'
+import { IIngredient } from '../../types'
 import { Ingredient } from './ingredient'
 import styles from './ingredients.module.css'
 

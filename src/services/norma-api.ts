@@ -1,68 +1,69 @@
-import { IIngredient } from "../utils/types";
+import { 
+    IIngredient
+} from '../types'
 import {
     GET_INGREDIENTS_LIST_URL,
     CREATE_ORDER_URL,
 } from '../constants'
 
+export interface IGetIngredientsListResponse {
+    success: boolean
+    data: IIngredient[]
+}
 
-export interface CreateOrderRequest {
+export interface ICreateOrderRequest {
     ingredients: IIngredient['_id'][]
 }
 
-interface NormaResponse {
+export interface ICreateOrderResponse {
     success: boolean
-}
-
-export interface GetIngredientsListResponse extends NormaResponse {
-    data: IIngredient[],
-}
-export interface CreateOrderResponse extends NormaResponse {
     name: string
     order: {
         number: number
     }
 }
 
-export class NormaApi {
+async function request<T>({ url, method, body}: { 
+    url: string, 
+    method: 'GET'|'POST', 
+    body?: any
+}): Promise<T> {
+    const response = await fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Referrer-Policy': 'no-referrer',
+        },
+        method,
+        body: body ? JSON.stringify(body) : undefined,
+    })
 
-    async request<T extends NormaResponse>({ url, method, body}: { 
-        url: string, 
-        method: 'GET'|'POST', 
-        body?: any
-    }): Promise<T> {
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Referrer-Policy': 'no-referrer',
-            },
-            method,
-            body: body ? JSON.stringify(body) : undefined,
-        })
-
-        if (!response.ok) {
-            throw new Error(`HTTP status error: ${response.status}`)
-        }
-        
-        return response.json()
+    if (!response.ok) {
+        throw new Error(`HTTP status error: ${response.status}`)
     }
-
-    async getIngredientsList(): Promise<GetIngredientsListResponse> {
-        return this.request<GetIngredientsListResponse>({
-            url: GET_INGREDIENTS_LIST_URL,
-            method: 'GET',
-        })
-    }
-
-    async createOrder(params: CreateOrderRequest): Promise<CreateOrderResponse> {
-        return this.request<CreateOrderResponse>({
-            url: CREATE_ORDER_URL,
-            method: 'POST',
-            body: params
-        })
-    }
+    
+    return response.json()
 }
 
+export async function getIngredientsList(): Promise<IGetIngredientsListResponse> {
+    return request<IGetIngredientsListResponse>({
+        url: GET_INGREDIENTS_LIST_URL,
+        method: 'GET',
+    })
+}
+
+export async function createOrder(params: ICreateOrderRequest): Promise<ICreateOrderResponse> {
+    return request<ICreateOrderResponse>({
+        url: CREATE_ORDER_URL,
+        method: 'POST',
+        body: params,
+    })
+}
+
+export const normaApi = {
+    getIngredientsList, 
+    createOrder,
+}
 
 
 

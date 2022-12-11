@@ -1,12 +1,12 @@
 import {
     ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { BurgerConstructorContext } from '../../services/burger-constructor-contexts'
-import { useContext } from 'react'
+import { useAppSelector } from '../../hooks'
+import { bunSelector } from '../../services/store/selectors'
 import styles from './burger-constructor.module.css'
 
 export const BunIngredient = ({ children }: { children?: React.ReactNode }) => {
-    const [{ bunIngredient }] = useContext(BurgerConstructorContext)
+    const bunIngredient = useAppSelector(bunSelector)
 
     return (
         <div className={`${styles.ingridients}`}>

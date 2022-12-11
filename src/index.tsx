@@ -1,11 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
+import { Provider } from 'react-redux'
 import { App } from './components/app'
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-)
+import { store } from './services/store'
 
 const ErrorHandler = ({ error }: { error: Error }) => {
   return (
@@ -16,10 +14,16 @@ const ErrorHandler = ({ error }: { error: Error }) => {
   )
 }
 
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+)
+
 root.render(
   <React.StrictMode>
     <ErrorBoundary FallbackComponent={ErrorHandler}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ErrorBoundary>
   </React.StrictMode>
 )

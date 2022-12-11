@@ -2,9 +2,9 @@ import {
     CheckMarkIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './order-details.module.css'
-import { CreateOrderResponse } from '../../services/norma-api'
+import { ICreateOrderResponse } from '../../services/norma-api'
 
-export const OrderDetails = ({ createOrderResponse }: { createOrderResponse?: CreateOrderResponse}) => {
+export const OrderDetails = ({ createOrderResponse }: { createOrderResponse?: ICreateOrderResponse}) => {
 
     return (
         !createOrderResponse?.success ? <div>Ошибка при созданнии заказа</div> :
