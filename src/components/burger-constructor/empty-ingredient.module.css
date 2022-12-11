@@ -1,0 +1,12 @@
+.element {
+    display: flex;
+    align-items: center;
+}
+
+.elementRow {
+    justify-content: center;
+    flex: 1;
+}
+
+
+

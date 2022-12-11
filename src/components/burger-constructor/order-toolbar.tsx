@@ -10,9 +10,12 @@ import { useAppSelector } from '../../hooks'
 import { burgerSelector } from '../../services/store/selectors'
 
 export const OrderToolbar = () => {
-    const { price, bunIngredient, internalIngredients} = useAppSelector(burgerSelector)
-    const canBeOrdered = bunIngredient && internalIngredients.length
-    
+    const { 
+        price, 
+        canBeOrdered, 
+        bunIngredient, 
+        internalIngredients
+    } = useAppSelector(burgerSelector)
     const [isModalOpen, toggleModal] = useModal()
     
     // const { createOrder, response: createOrderResponse, loading, error } = useCreateOrder()
@@ -43,7 +46,7 @@ export const OrderToolbar = () => {
                     size='large'
                     htmlType='button'
                     onClick={() => submitOrder()}
-                    // disabled={!canBeOrdered || loading}
+                    disabled={!canBeOrdered}
                 >
                     Оформить заказ
                 </Button>

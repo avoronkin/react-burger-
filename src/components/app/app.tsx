@@ -1,17 +1,9 @@
-import { getIngredients } from '../../services/store/burger-ingredients/actions'
 import { AppHeader } from '../app-header'
-import { BurgerConstructor } from '../burger-constructor'
 import { BurgerIngredients } from '../burger-ingredients'
-import { useAppDispatch } from '../../hooks'
-import { useEffect } from 'react'
+import { BurgerConstructor } from '../burger-constructor'
 import styles from './app.module.css'
 
 export const App = () => {
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch])
 
   return (
     <div className={styles.page}>
