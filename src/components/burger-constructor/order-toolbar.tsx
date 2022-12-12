@@ -3,60 +3,51 @@ import {
     CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Modal } from '../modal'
-import { useModal } from '../../hooks'
 import { OrderDetails } from './order-details'
 import styles from './order-toolbar.module.css'
-import { useAppSelector } from '../../hooks'
-import { burgerSelector } from '../../services/store/selectors'
+import { useAppSelector, useAppDispatch } from '../../hooks'
+import { selectDataForOrder } from '../../services/store/burger-constructor/selectors'
+import { resetBurgerIngredients } from '../../services/store/burger-constructor/actions'
+import { selectCreateOrderRequest } from '../../services/store/order/selectors'
+import { createOrder, closeOrderDetails } from '../../services/store/order/actions'
 
 export const OrderToolbar = () => {
-    const { 
-        price, 
-        canBeOrdered, 
-        bunIngredient, 
-        internalIngredients
-    } = useAppSelector(burgerSelector)
-    const [isModalOpen, toggleModal] = useModal()
-    
-    // const { createOrder, response: createOrderResponse, loading, error } = useCreateOrder()
-    // if (error) {
-    //     throw new Error('Ошибка при созданн заказа')
-    // }
-    
-    const submitOrder = () => {
-        const ingredients = internalIngredients.map(i => i._id)
-        if (bunIngredient) {
-            ingredients.push(bunIngredient._id)
-        }
+    const dispatch = useAppDispatch()
+    const { burgerCost, canBeOrdered, dataForOrder } = useAppSelector(selectDataForOrder)
+    const { createOrderRequest, createOrderError, orderDetailsOpen } = useAppSelector(selectCreateOrderRequest)
 
-        // createOrder({ ingredients })
-        // .then(() => {
-        //     toggleModal()
-        // })
+    const handleClose = () => {
+        dispatch(closeOrderDetails())
+        dispatch(resetBurgerIngredients())
+    }
+
+    const submitOrder = () => {
+        dispatch(createOrder(dataForOrder))
     }
 
     return (
         <>
             <div className={`${styles.orderToolbar} p-6`}>
                 <span className='text text_type_main-medium pr-4'>
-                    {price} <CurrencyIcon type='primary' />
+                    {burgerCost} <CurrencyIcon type='primary' />
                 </span>
                 <Button
                     type='primary'
                     size='large'
                     htmlType='button'
-                    onClick={() => submitOrder()}
-                    disabled={!canBeOrdered}
-                >
-                    Оформить заказ
+                    onClick={submitOrder}
+                    disabled={!canBeOrdered || createOrderRequest || orderDetailsOpen}
+                    >
+                    {createOrderRequest ? 'Создаём заказ' : 'Оформить заказ'}
                 </Button>
             </div>
+            {createOrderError && <p className="text text_type_main-default">Ошибка при создании заказа</p>}
             <Modal
-                isOpen={isModalOpen}
-                handleClose={toggleModal}
+                isOpen={orderDetailsOpen}
+                handleClose={handleClose}
                 title='Детали заказа'
             >
-                {/* <OrderDetails createOrderResponse={createOrderResponse} /> */}
+                <OrderDetails/>
             </Modal>
         </>
     )

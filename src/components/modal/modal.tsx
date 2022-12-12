@@ -2,6 +2,8 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Portal } from '../portal'
 import { ModalOverlay } from './modal-overlay'
 import styles from './modal.module.css'
+import { useCallback  } from 'react'
+import { useKey } from '../../hooks'
 
 export const Modal = ({ title, children, isOpen, handleClose }: {
   title?: string
@@ -9,6 +11,8 @@ export const Modal = ({ title, children, isOpen, handleClose }: {
   isOpen: boolean,
   handleClose: () => void
 }) => {
+  useKey('Escape', useCallback(() => isOpen && handleClose(), [isOpen, handleClose]))
+  
   if (!isOpen) return null
 
   return (

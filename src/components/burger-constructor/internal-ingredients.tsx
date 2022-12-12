@@ -1,11 +1,11 @@
 import { InternalIngredient } from './internal-ingredient'
 import { EmptyIngredient } from './empty-ingredient'
 import styles from './burger-constructor.module.css'
-import { internalIngredientsSelector } from '../../services/store/selectors'
+import { selectBurgerInternalIngredients } from '../../services/store/burger-constructor/selectors'
 import { useAppSelector } from '../../hooks'
 
 export const InternalIngredients = () => {
-    const internalIngredients = useAppSelector(internalIngredientsSelector)
+    const internalIngredients = useAppSelector(selectBurgerInternalIngredients)
 
     return (
         <div className={`${styles.ingridientsScrol} custom-scroll`}>
@@ -14,7 +14,7 @@ export const InternalIngredients = () => {
                 internalIngredients
                     .map((ingredient) => {
                         return (
-                            <InternalIngredient ingredient={ingredient} key={ingredient._id}/>
+                            <InternalIngredient ingredient={ingredient} key={ingredient.uid}/>
                         )
                     })
             }

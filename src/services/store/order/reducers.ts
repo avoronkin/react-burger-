@@ -2,6 +2,7 @@ import {
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_SUCCESS,
     CREATE_ORDER_ERROR,
+    CLOSE_ORDER_DETAILS,
     OrderActions,
 } from './actions'
 import { OrderState, initialState } from './state'
@@ -18,7 +19,11 @@ export const orderReducer = (state = initialState, action: OrderActions): OrderS
             return {
                 ...state,
                 createOrderRequest: false,
-                orderNumber: action.payload.orderNumber,
+                order: {
+                    name: action.payload.name,
+                    number: action.payload.order.number,
+                },
+                orderDetailsOpen: true,
             }
         }
         case CREATE_ORDER_ERROR: {
@@ -26,6 +31,13 @@ export const orderReducer = (state = initialState, action: OrderActions): OrderS
                 ...state,
                 createOrderRequest: false,
                 createOrderError: true
+            }
+        }
+
+        case CLOSE_ORDER_DETAILS: {
+            return {
+                ...state,
+                orderDetailsOpen: false,
             }
         }
         default:

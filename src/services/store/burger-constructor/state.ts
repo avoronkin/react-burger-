@@ -1,14 +1,10 @@
 import { IIngredient } from '../../../types'
 
 export interface BurgerConstructorState {
-    bunIngredient?: IIngredient
     internalIngredients: IIngredient[]
-    price: number
-    canBeOrdered: boolean
+    bunIngredient?: IIngredient
 }
 
 export const initialState: BurgerConstructorState = {
     internalIngredients: [],
-    price: 0,
-    canBeOrdered: false,
 }

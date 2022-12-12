@@ -5,7 +5,9 @@ export const REMOVE_INGREDIENT_DETAILS = 'REMOVE_INGREDIENT_DETAILS'
 
 export interface AddIngredientDetailsAction {
     type: typeof ADD_INGREDIENT_DETAILS
-    ingredient: IIngredient
+    payload: {
+        ingredient: IIngredient
+    }
 }
 
 export interface RemoveIngredientDetailsAction {
@@ -13,3 +15,14 @@ export interface RemoveIngredientDetailsAction {
 }
 
 export type IngredientDetailsActions = AddIngredientDetailsAction | RemoveIngredientDetailsAction
+
+export const addIngredientDetails = (ingredient: IIngredient): AddIngredientDetailsAction => ({
+    type: 'ADD_INGREDIENT_DETAILS',
+    payload: {
+        ingredient
+    }
+})
+
+export const removeIngredientDetails = (): RemoveIngredientDetailsAction => ({
+    type: 'REMOVE_INGREDIENT_DETAILS',
+})

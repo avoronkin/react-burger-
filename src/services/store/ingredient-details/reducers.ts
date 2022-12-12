@@ -10,12 +10,14 @@ export const ingredientDetailsReducer = (state = initialState, action: Ingredien
     switch (action.type) {
         case ADD_INGREDIENT_DETAILS:{
             return {
-                ...state
+                ...state,
+                ingredient: action.payload.ingredient
             }
         }
         case REMOVE_INGREDIENT_DETAILS:{
             return {
-                ...state
+                ...state,
+                ingredient: undefined
             }
         }
         default:

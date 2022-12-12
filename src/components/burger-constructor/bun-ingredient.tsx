@@ -3,11 +3,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { EmptyIngredient } from './empty-ingredient'
 import { useAppSelector } from '../../hooks'
-import { bunSelector } from '../../services/store/selectors'
+import { selectBurgerBunIngredient } from '../../services/store/burger-constructor/selectors'
 import styles from './burger-constructor.module.css'
 
+
 export const BunIngredient = ({ children }: { children?: React.ReactNode }) => {
-    const bunIngredient = useAppSelector(bunSelector)
+    const bunIngredient = useAppSelector(selectBurgerBunIngredient)
     const emptyText = 'Булка на выбрана'
 
     return (

@@ -5,7 +5,7 @@ import { Ingredients } from './ingredients'
 import { LoadingSpinner } from '../loading-spinner'
 import styles from './burger-ingredients.module.css'
 import { useAppSelector } from '../../hooks'
-import { burgerIngredientsSelector } from '../../services/store/selectors'
+import { selectIngredientsList } from '../../services/store/burger-ingredients/selectors'
 import { getIngredients } from '../../services/store/burger-ingredients/actions'
 import { useAppDispatch } from '../../hooks'
 import { useEffect } from 'react'
@@ -16,7 +16,7 @@ export const BurgerIngredients = () => {
         ingredients,
         ingredientsError,
         ingredientsRequest
-    } = useAppSelector(burgerIngredientsSelector)
+    } = useAppSelector(selectIngredientsList)
 
     const dispatch = useAppDispatch()
 
