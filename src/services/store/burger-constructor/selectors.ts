@@ -23,3 +23,21 @@ export const selectDataForOrder = (store: RootState) => {
         }
     }
 }
+
+export const selectIngredientsCount = (store: RootState) => {
+    const { bunIngredient, internalIngredients } = store.burgerConstructor
+
+    const counter: Record<string, number> = {}
+    if (bunIngredient) {
+        counter[bunIngredient._id] = 2
+    }
+
+    internalIngredients.forEach(ingredient => {
+        if(!counter[ingredient._id]) {
+            counter[ingredient._id] = 0
+        }
+        counter[ingredient._id] +=1
+    })
+
+    return counter
+}

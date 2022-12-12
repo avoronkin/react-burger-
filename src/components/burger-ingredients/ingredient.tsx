@@ -1,5 +1,6 @@
 import {
     CurrencyIcon,
+    Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IIngredient } from '../../types'
 import { Modal } from '../modal'
@@ -9,11 +10,15 @@ import { useDrag } from 'react-dnd'
 import { useAppSelector, useAppDispatch } from '../../hooks'
 import { selectIngredientDetails } from '../../services/store/ingredient-details/selectors'
 import { addIngredientDetails, removeIngredientDetails } from '../../services/store/ingredient-details/actions'
+import { selectIngredientsCount } from '../../services/store/burger-constructor/selectors'
 
 export const Ingredient = (props: IIngredient) => {
     const dispatch = useAppDispatch()
     const handleOpen = () => dispatch(addIngredientDetails(props))
     const handleClose = () => dispatch(removeIngredientDetails())
+    const counter = useAppSelector(selectIngredientsCount)
+    console.log({counter})
+    const count = counter[props._id] || 0
     const ingredientDetails = useAppSelector(selectIngredientDetails)
     const isOpen = ingredientDetails?._id === props._id
 
@@ -31,9 +36,10 @@ export const Ingredient = (props: IIngredient) => {
                 ref={dragRef}
                 className={`${styles.ingredient} text text_type_main-default`}
                 onClick={handleOpen}>
-                <img alt={props.name} src={props.image} />
-                <h3><span className='pr-2'>{props.price}</span><CurrencyIcon type="primary" /></h3>
-                <h4>{props.name}</h4>
+                    {count ? <Counter count={count} size='small' extraClass='m-1'/> : null}
+                    <img alt={props.name} src={props.image} />
+                    <h3><span className='pr-2'>{props.price}</span><CurrencyIcon type="primary" /></h3>
+                    <h4>{props.name} </h4>
             </div>
             <Modal
                 isOpen={isOpen}
