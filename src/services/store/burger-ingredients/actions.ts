@@ -5,6 +5,7 @@ import { AppThunk } from '../index'
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS'
 export const GET_INGREDIENTS_ERROR = 'GET_INGREDIENTS_ERROR'
+export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
 
 export interface GetIngredientsRequestAction {
     type: typeof GET_INGREDIENTS_REQUEST
@@ -20,6 +21,16 @@ export interface GetIngredientsErrorAction {
 }
 
 export type GetIngredientsAction = GetIngredientsRequestAction | GetIngredientsSuccessAction | GetIngredientsErrorAction
+
+export interface SetActiveTabAction {
+    type: typeof SET_ACTIVE_TAB,
+    payload: {
+        id: string
+        intersectionRatio: number
+    }
+}
+
+export type  IngredientsActions = GetIngredientsAction | SetActiveTabAction
 
 const getIngredientsRequest = (): GetIngredientsRequestAction => ({
     type: 'GET_INGREDIENTS_REQUEST'
@@ -53,3 +64,11 @@ export function getIngredients(): AppThunk {
             })
     }
 }
+
+export const setActiveTab = (id: string, intersectionRatio: number): SetActiveTabAction => ({
+    type: 'SET_ACTIVE_TAB',
+    payload: { 
+        id, 
+        intersectionRatio 
+    },
+})

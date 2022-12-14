@@ -2,7 +2,7 @@ import { IIngredient } from '../../../types'
 import { v4 as uuidv4 } from 'uuid'
 export const ADD_BURGER_INGREDIENT = 'ADD_BURGER_INGREDIENT'
 export const REMOVE_BURGER_INGREDIENT = 'REMOVE_BURGER_INGREDIENT'
-export const SORT_BURGER_INGREDIENTS = 'SORT_BURGER_INGREDIENTS'
+export const MOVE_BURGER_INGREDIENT = 'MOVE_BURGER_INGREDIENT'
 export const RESET_BURGER_INGREDIENTS = 'RESET_BURGER_INGREDIENTS'
 
 export interface AddBurgerIngredientAction {
@@ -19,10 +19,11 @@ export interface RemoveBurgerIngredientAction {
     }
 }
 
-export interface SortBurgerIngredientsAction {
-    type: typeof SORT_BURGER_INGREDIENTS
+export interface MoveBurgerIngredientAction {
+    type: typeof MOVE_BURGER_INGREDIENT
     payload: {
-        ingredients: IIngredient[]
+        newIndex: number
+        oldIndex: number
     }
 }
 
@@ -30,7 +31,7 @@ export interface ResetBurgerIngredientsAction {
     type: typeof RESET_BURGER_INGREDIENTS
 }
 
-export type BurgerCostructorActions = AddBurgerIngredientAction | RemoveBurgerIngredientAction | SortBurgerIngredientsAction | ResetBurgerIngredientsAction
+export type BurgerCostructorActions = AddBurgerIngredientAction | RemoveBurgerIngredientAction | MoveBurgerIngredientAction | ResetBurgerIngredientsAction
 
 export const addBurgerIngredient = (ingredient: IIngredient): AddBurgerIngredientAction => ({
     type: 'ADD_BURGER_INGREDIENT',
@@ -49,10 +50,11 @@ export const removeBurgerIngredient = (ingredient: IIngredient): RemoveBurgerIng
     }
 })
 
-export const sortBurgerIngredients = (ingredients: IIngredient[]): SortBurgerIngredientsAction => ({
-    type: 'SORT_BURGER_INGREDIENTS',
+export const moveBurgerIngredient = (newIndex: number, oldIndex: number): MoveBurgerIngredientAction => ({
+    type: 'MOVE_BURGER_INGREDIENT',
     payload: {
-        ingredients,
+        newIndex,
+        oldIndex,
     }
 })
 

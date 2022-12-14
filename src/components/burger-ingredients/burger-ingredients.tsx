@@ -4,15 +4,14 @@ import {
 import { Ingredients } from './ingredients'
 import { LoadingSpinner } from '../loading-spinner'
 import styles from './burger-ingredients.module.css'
-import { useAppSelector } from '../../hooks'
 import { selectIngredientsList } from '../../services/store/burger-ingredients/selectors'
 import { getIngredients } from '../../services/store/burger-ingredients/actions'
-import { useAppDispatch } from '../../hooks'
+import { useAppSelector, useAppDispatch } from '../../hooks'
 import { useEffect } from 'react'
 
 export const BurgerIngredients = () => {
     const {
-        ingredientTypes,
+        ingredientTabs,
         ingredients,
         ingredientsError,
         ingredientsRequest
@@ -26,14 +25,14 @@ export const BurgerIngredients = () => {
 
     return (
         <div>
-            <nav className={`${styles.tabs} pb-9`}>
-                {ingredientTypes.map(({ type, name, active }) => {
+            <nav className={`${styles.tabs}`}>
+                {ingredientTabs.map(({ type, name, active }, index) => {
                     return (
                         <Tab
                             key={type}
                             value={type}
                             active={active}
-                            onClick={() => {}}
+                            onClick={() => { }}
                         >
                             {name}
                         </Tab>
@@ -43,10 +42,11 @@ export const BurgerIngredients = () => {
             <section className={`${styles.ingredientsWrapper} custom-scroll`}>
                 {ingredientsRequest && <LoadingSpinner />}
                 {ingredientsError && <div>Ошибка при загрузке ингредиентов</div>}
-                {!ingredientsRequest && !ingredientsError && ingredientTypes.map(({ type, name }) => {
+                {!ingredientsRequest && !ingredientsError && ingredientTabs.map(({ type, name }, index) => {
                     return (
                         <Ingredients
                             name={name}
+                            type={type}
                             key={type}
                             ingredients={ingredients.filter(i => i.type === type)}
                         />

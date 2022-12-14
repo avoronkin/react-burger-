@@ -1,7 +1,7 @@
 import {
     ADD_BURGER_INGREDIENT,
     REMOVE_BURGER_INGREDIENT,
-    SORT_BURGER_INGREDIENTS,
+    MOVE_BURGER_INGREDIENT,
     RESET_BURGER_INGREDIENTS,
     BurgerCostructorActions
 } from './actions'
@@ -39,12 +39,16 @@ export const burgerConstructorReducer = (state = initialState, action: BurgerCos
             }
         }
 
-        case SORT_BURGER_INGREDIENTS: {
-            const ingredients = action.payload.ingredients
+        case MOVE_BURGER_INGREDIENT: {
+            const { newIndex, oldIndex } = action.payload
+            const { internalIngredients } = state
+
+            const arr = [...internalIngredients]
+            arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0])
 
             return {
                 ...state,
-                internalIngredients: [...ingredients]
+                internalIngredients: arr
             }
         }
 

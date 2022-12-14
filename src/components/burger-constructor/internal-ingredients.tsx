@@ -12,9 +12,13 @@ export const InternalIngredients = () => {
             {!internalIngredients.length && <EmptyIngredient extraClass='ml-8'>Ингредиенты не выбраны</EmptyIngredient>}
             {
                 internalIngredients
-                    .map((ingredient) => {
+                    .map((ingredient, index) => {
                         return (
-                            <InternalIngredient ingredient={ingredient} key={ingredient.uid}/>
+                            <InternalIngredient
+                                ingredient={ingredient}
+                                index={index}
+                                key={ingredient.uid}
+                            />
                         )
                     })
             }

@@ -20,6 +20,7 @@ export interface IIngredientTab {
     type: IIngredientType
     name: string
     active: boolean
+    intersectionRatio: number
 }
 
 
