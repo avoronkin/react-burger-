@@ -3,7 +3,6 @@ import { ModalOverlay } from './modal-overlay'
 import { Portal } from '../portal'
 import React from 'react'
 import styles from './modal.module.css'
-import { useCallback } from 'react'
 import { useKey } from '../../hooks'
 
 export const Modal = ({ handleClose, title, children }: {
@@ -11,7 +10,7 @@ export const Modal = ({ handleClose, title, children }: {
     title?: string
     children?: React.ReactNode,
 }) => {
-    useKey('Escape', useCallback(() => handleClose(), [handleClose]))
+    useKey('Escape', () => handleClose())
 
     return (
         <Portal containerId='modals-root'>
