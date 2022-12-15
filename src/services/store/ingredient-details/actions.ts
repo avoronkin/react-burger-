@@ -17,12 +17,12 @@ export interface RemoveIngredientDetailsAction {
 export type IngredientDetailsActions = AddIngredientDetailsAction | RemoveIngredientDetailsAction
 
 export const addIngredientDetails = (ingredient: IIngredient): AddIngredientDetailsAction => ({
-    type: 'ADD_INGREDIENT_DETAILS',
+    type: ADD_INGREDIENT_DETAILS,
     payload: {
         ingredient
     }
 })
 
 export const removeIngredientDetails = (): RemoveIngredientDetailsAction => ({
-    type: 'REMOVE_INGREDIENT_DETAILS',
+    type: REMOVE_INGREDIENT_DETAILS,
 })

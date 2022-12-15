@@ -1,9 +1,9 @@
 import {
     ADD_BURGER_INGREDIENT,
-    REMOVE_BURGER_INGREDIENT,
+    BurgerCostructorActions,
     MOVE_BURGER_INGREDIENT,
-    RESET_BURGER_INGREDIENTS,
-    BurgerCostructorActions
+    REMOVE_BURGER_INGREDIENT,
+    RESET_BURGER_INGREDIENTS
 } from './actions'
 import {
     BurgerConstructorState,

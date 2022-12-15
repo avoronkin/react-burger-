@@ -1,11 +1,11 @@
 import { BunIngredient } from './bun-ingredient'
+import { DND_TYPES } from '../../constants'
+import { IIngredient } from '../../types'
 import { InternalIngredients } from './internal-ingredients'
 import { OrderToolbar } from './order-toolbar'
-import { useDrop } from 'react-dnd'
-import { useAppDispatch } from '../../hooks'
 import { addBurgerIngredient } from '../../services/store/burger-constructor/actions'
-import { IIngredient } from '../../types'
-import { DND_TYPES } from '../../constants'
+import { useAppDispatch } from '../../hooks'
+import { useDrop } from 'react-dnd'
 
 export const BurgerConstructor = () => {
     const dispatch = useAppDispatch()

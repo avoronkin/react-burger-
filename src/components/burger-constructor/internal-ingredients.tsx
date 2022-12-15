@@ -1,7 +1,7 @@
-import { InternalIngredient } from './internal-ingredient'
 import { EmptyIngredient } from './empty-ingredient'
-import styles from './burger-constructor.module.css'
+import { InternalIngredient } from './internal-ingredient'
 import { selectBurgerInternalIngredients } from '../../services/store/burger-constructor/selectors'
+import styles from './burger-constructor.module.css'
 import { useAppSelector } from '../../hooks'
 
 export const InternalIngredients = () => {

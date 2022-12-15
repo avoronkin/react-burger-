@@ -1,11 +1,9 @@
-import {
-    ConstructorElement,
-} from '@ya.praktikum/react-developer-burger-ui-components'
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import { EmptyIngredient } from './empty-ingredient'
-import { useAppSelector } from '../../hooks'
+import React from 'react'
 import { selectBurgerBunIngredient } from '../../services/store/burger-constructor/selectors'
 import styles from './burger-constructor.module.css'
-
+import { useAppSelector } from '../../hooks'
 
 export const BunIngredient = ({ children }: { children?: React.ReactNode }) => {
     const bunIngredient = useAppSelector(selectBurgerBunIngredient)
@@ -16,7 +14,7 @@ export const BunIngredient = ({ children }: { children?: React.ReactNode }) => {
             <div className={`${styles.ingridient} pl-6`}>
                 {!bunIngredient && <EmptyIngredient type='top' extraClass='ml-2'>{emptyText}</EmptyIngredient>}
                 {bunIngredient && <ConstructorElement
-                    text={bunIngredient.name}
+                    text={`${bunIngredient.name} (верх)`}
                     thumbnail={bunIngredient.image}
                     price={bunIngredient.price}
                     type='top'
@@ -28,7 +26,7 @@ export const BunIngredient = ({ children }: { children?: React.ReactNode }) => {
             <div className={`${styles.ingridient} pl-6`}>
                 {!bunIngredient && <EmptyIngredient type='bottom' extraClass='ml-2'>{emptyText}</EmptyIngredient>}
                 {bunIngredient && <ConstructorElement
-                    text={bunIngredient.name}
+                    text={`${bunIngredient.name} (низ)`}
                     thumbnail={bunIngredient.image}
                     price={bunIngredient.price}
                     type='bottom'

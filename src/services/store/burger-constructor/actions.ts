@@ -34,7 +34,7 @@ export interface ResetBurgerIngredientsAction {
 export type BurgerCostructorActions = AddBurgerIngredientAction | RemoveBurgerIngredientAction | MoveBurgerIngredientAction | ResetBurgerIngredientsAction
 
 export const addBurgerIngredient = (ingredient: IIngredient): AddBurgerIngredientAction => ({
-    type: 'ADD_BURGER_INGREDIENT',
+    type: ADD_BURGER_INGREDIENT,
     payload: {
         ingredient: {
             ...ingredient,
@@ -44,14 +44,14 @@ export const addBurgerIngredient = (ingredient: IIngredient): AddBurgerIngredien
 })
 
 export const removeBurgerIngredient = (ingredient: IIngredient): RemoveBurgerIngredientAction => ({
-    type: 'REMOVE_BURGER_INGREDIENT',
+    type: REMOVE_BURGER_INGREDIENT,
     payload: {
         ingredient,
     }
 })
 
 export const moveBurgerIngredient = (newIndex: number, oldIndex: number): MoveBurgerIngredientAction => ({
-    type: 'MOVE_BURGER_INGREDIENT',
+    type: MOVE_BURGER_INGREDIENT,
     payload: {
         newIndex,
         oldIndex,
@@ -59,6 +59,6 @@ export const moveBurgerIngredient = (newIndex: number, oldIndex: number): MoveBu
 })
 
 export const resetBurgerIngredients = (): ResetBurgerIngredientsAction => ({
-    type: 'RESET_BURGER_INGREDIENTS',
+    type: RESET_BURGER_INGREDIENTS,
 })
 

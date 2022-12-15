@@ -1,6 +1,6 @@
-import { normaApi } from '../../norma-api'
-import { IIngredient } from '../../../types'
 import { AppThunk } from '../index'
+import { IIngredient } from '../../../types'
+import { normaApi } from '../../norma-api'
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS'
@@ -30,21 +30,21 @@ export interface SetActiveTabAction {
     }
 }
 
-export type  IngredientsActions = GetIngredientsAction | SetActiveTabAction
+export type IngredientsActions = GetIngredientsAction | SetActiveTabAction
 
 const getIngredientsRequest = (): GetIngredientsRequestAction => ({
-    type: 'GET_INGREDIENTS_REQUEST'
+    type: GET_INGREDIENTS_REQUEST,
 })
 
 const getIngredientsSuccess = (ingredients: IIngredient[]): GetIngredientsSuccessAction => ({
-    type: 'GET_INGREDIENTS_SUCCESS',
+    type: GET_INGREDIENTS_SUCCESS,
     payload: {
         ingredients,
     }
 })
 
 const getIngredientsError = (): GetIngredientsErrorAction => ({
-    type: 'GET_INGREDIENTS_ERROR'
+    type: GET_INGREDIENTS_ERROR,
 })
 
 export function getIngredients(): AppThunk {
@@ -66,9 +66,9 @@ export function getIngredients(): AppThunk {
 }
 
 export const setActiveTab = (id: string, intersectionRatio: number): SetActiveTabAction => ({
-    type: 'SET_ACTIVE_TAB',
-    payload: { 
-        id, 
-        intersectionRatio 
+    type: SET_ACTIVE_TAB,
+    payload: {
+        id,
+        intersectionRatio
     },
 })

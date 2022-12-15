@@ -1,8 +1,8 @@
 import {
-    IngredientsActions,
+    GET_INGREDIENTS_ERROR,
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
-    GET_INGREDIENTS_ERROR,
+    IngredientsActions,
     SET_ACTIVE_TAB,
 } from './actions'
 import { IBurgerIngredientsState, initialState } from './state'

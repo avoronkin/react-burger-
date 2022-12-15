@@ -1,6 +1,6 @@
+import { selectIngredientDetails } from '../../services/store/ingredient-details/selectors'
 import styles from './ingredient-details.module.css'
 import { useAppSelector } from '../../hooks'
-import { selectIngredientDetails } from '../../services/store/ingredient-details/selectors'
 
 export const IngredientDetails = () => {
     const ingredient = useAppSelector(selectIngredientDetails)
@@ -9,7 +9,7 @@ export const IngredientDetails = () => {
         <div className={`${styles.ingredientDetailsContent}`}>
             <img alt={ingredient?.name} src={ingredient?.image_large} />
             <h4 className='text text_type_main-medium'>{ingredient?.name}</h4>
-            <p className={`${styles.ingredientDetailsDescription} text text_type_main-small p-5`}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+            <p className={`${styles.ingredientDetailsDescription} text text_type_main-small p-5`}> </p>
 
             <section className={`${styles.params} p-5`}>
                 <div>

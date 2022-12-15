@@ -1,7 +1,7 @@
 import {
     ADD_INGREDIENT_DETAILS,
-    REMOVE_INGREDIENT_DETAILS,
     IngredientDetailsActions,
+    REMOVE_INGREDIENT_DETAILS,
 } from './actions'
 import { IngredientDetailsState, initialState } from './state'
 

@@ -1,8 +1,8 @@
 import {
-    Logo,
     BurgerIcon,
+    ListIcon,
+    Logo,
     ProfileIcon,
-    ListIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css'
 

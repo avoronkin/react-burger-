@@ -1,8 +1,8 @@
 import {
+    CLOSE_ORDER_DETAILS,
+    CREATE_ORDER_ERROR,
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_SUCCESS,
-    CREATE_ORDER_ERROR,
-    CLOSE_ORDER_DETAILS,
     OrderActions,
 } from './actions'
 import { OrderState, initialState } from './state'

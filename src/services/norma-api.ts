@@ -1,10 +1,5 @@
-import { 
-    IIngredient
-} from '../types'
-import {
-    GET_INGREDIENTS_LIST_URL,
-    CREATE_ORDER_URL,
-} from '../constants'
+import { BASE_URL } from '../constants'
+import { IIngredient } from '../types'
 
 export interface IGetIngredientsListResponse {
     success: boolean
@@ -12,7 +7,7 @@ export interface IGetIngredientsListResponse {
 }
 
 export interface ICreateOrderRequest {
-    ingredients: IIngredient['_id'][]
+    ingredients: Array<IIngredient['_id']>
 }
 
 export interface ICreateOrderResponse {
@@ -23,10 +18,19 @@ export interface ICreateOrderResponse {
     }
 }
 
-async function request<T>({ url, method, body}: { 
+async function request<T>({ url, method }: { 
     url: string, 
     method: 'GET'|'POST', 
-    body?: any
+}): Promise<T>
+async function request<T, K>({ url, method, body}: { 
+    url: string, 
+    method: 'GET'|'POST', 
+    body?: K
+}): Promise<T>
+async function request<T, K>({ url, method, body}: { 
+    url: string, 
+    method: 'GET'|'POST', 
+    body?: K
 }): Promise<T> {
     const response = await fetch(url, {
         headers: {
@@ -47,14 +51,14 @@ async function request<T>({ url, method, body}: {
 
 export async function getIngredientsList(): Promise<IGetIngredientsListResponse> {
     return request<IGetIngredientsListResponse>({
-        url: GET_INGREDIENTS_LIST_URL,
+        url: `${BASE_URL}/ingredients`,
         method: 'GET',
     })
 }
 
 export async function createOrder(params: ICreateOrderRequest): Promise<ICreateOrderResponse> {
-    return request<ICreateOrderResponse>({
-        url: CREATE_ORDER_URL,
+    return request<ICreateOrderResponse, ICreateOrderRequest>({
+        url: `${BASE_URL}/orders`,
         method: 'POST',
         body: params,
     })

@@ -1,12 +1,16 @@
 import { IIngredient } from '../../types'
 import { Ingredient } from './ingredient'
-import styles from './ingredients.module.css'
-import { useInView } from 'react-intersection-observer'
-import { useEffect } from 'react'
-import { useAppDispatch } from '../../hooks'
 import { setActiveTab } from '../../services/store/burger-ingredients/actions'
+import styles from './ingredients.module.css'
+import { useAppDispatch } from '../../hooks'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
 
-export const Ingredients = ({ name, type, ingredients }: { name: string, type: string, ingredients: IIngredient[] }) => {
+export const Ingredients = ({ name, type, ingredients }: {
+    name: string
+    type: string
+    ingredients: IIngredient[]
+}) => {
     const dispatch = useAppDispatch()
     const { ref, inView, entry } = useInView({
         threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
