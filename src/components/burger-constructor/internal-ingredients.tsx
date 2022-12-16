@@ -1,18 +1,24 @@
-import { useContext } from 'react'
-import { BurgerConstructorContext } from '../../services/burger-constructor-contexts'
+import { EmptyIngredient } from './empty-ingredient'
 import { InternalIngredient } from './internal-ingredient'
+import { selectBurgerInternalIngredients } from '../../services/store/burger-constructor/selectors'
 import styles from './burger-constructor.module.css'
+import { useAppSelector } from '../../hooks'
 
 export const InternalIngredients = () => {
-    const [{ internalIngredients }] = useContext(BurgerConstructorContext)
+    const internalIngredients = useAppSelector(selectBurgerInternalIngredients)
 
     return (
         <div className={`${styles.ingridientsScrol} custom-scroll`}>
+            {!internalIngredients.length && <EmptyIngredient extraClass='ml-8'>Ингредиенты не выбраны</EmptyIngredient>}
             {
                 internalIngredients
-                    .map((ingredient) => {
+                    .map((ingredient, index) => {
                         return (
-                            <InternalIngredient ingredient={ingredient} key={ingredient._id}/>
+                            <InternalIngredient
+                                ingredient={ingredient}
+                                index={index}
+                                key={ingredient.uid}
+                            />
                         )
                     })
             }

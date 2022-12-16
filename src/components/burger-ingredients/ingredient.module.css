@@ -2,4 +2,5 @@
     width: 50%;
     text-align: center;
     cursor: pointer;
+    position: relative;
 }

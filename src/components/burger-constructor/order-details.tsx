@@ -1,17 +1,18 @@
 import {
     CheckMarkIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import { selectOrder } from '../../services/store/order/selectors'
 import styles from './order-details.module.css'
-import { CreateOrderResponse } from '../../services/norma-api'
+import { useAppSelector } from '../../hooks'
 
-export const OrderDetails = ({ createOrderResponse }: { createOrderResponse?: CreateOrderResponse}) => {
+export const OrderDetails = () => {
+    const order = useAppSelector(selectOrder)
 
     return (
-        !createOrderResponse?.success ? <div>Ошибка при созданнии заказа</div> :
         <div className={`${styles.orderContent} m-2`}>
-            <h2 className="text text_type_digits-large">{createOrderResponse.order.number}</h2>
+            <h2 className="text text_type_digits-large">{order?.number}</h2>
 
-            <p className="text text_type_main-medium pt-6">{createOrderResponse.name}</p>
+            <p className="text text_type_main-medium pt-6">{order?.name}</p>
 
             <span className="p-10"><CheckMarkIcon type="primary" /></span>
 
