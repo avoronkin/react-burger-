@@ -1,5 +1,5 @@
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { closeOrderDetails, createOrder } from '../../services/store/order/actions'
+import { closeOrderDetails, createOrder } from '../../services/store/auth/actions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Modal } from '../modal'
 import { OrderDetails } from './order-details'

@@ -1,8 +1,19 @@
+import {
+    Error404Page,
+    ForgotPasswordPage,
+    HomePage,
+    IngredientDetailsPage,
+    LoginPage,
+    ProfilePage,
+    RegisterPage,
+    ResetPasswordPage,
+} from '../../pages'
+import {
+    Route,
+    Switch,
+} from 'react-router-dom'
 import { AppHeader } from '../app-header'
-import { BurgerConstructor } from '../burger-constructor'
-import { BurgerIngredients } from '../burger-ingredients'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { ROUTES } from '../../constants'
 import styles from './app.module.css'
 
 export const App = () => {
@@ -11,17 +22,33 @@ export const App = () => {
         <div className={styles.page}>
             <div className={styles.content}>
                 <AppHeader />
-                <h2 className='text text_type_main-large p-5'>Соберите бургер</h2>
-                <main className={styles.main}>
-                    <DndProvider backend={HTML5Backend}>
-                        <section className={`${styles.burgerIngredients} pr-4`}>
-                            <BurgerIngredients />
-                        </section>
-                        <section className={styles.burgerConstructor}>
-                            <BurgerConstructor />
-                        </section>
-                    </DndProvider>
-                </main>
+                <Switch>
+                    <Route exact={true} path='/' >
+                        <HomePage />
+                    </Route>
+                    <Route path={ROUTES.LOGIN} exact={true}>
+                        <LoginPage />
+                    </Route>
+                    <Route path={ROUTES.REGISTER} exact={true}>
+                        <RegisterPage />
+                    </Route>
+                    <Route path={ROUTES.FORGOT_PASSWORD} exact={true}>
+                        <ForgotPasswordPage />
+                    </Route>
+                    <Route path={ROUTES.RESET_PASSWORD} exact={true}>
+                        <ResetPasswordPage />
+                    </Route>
+                    <Route path={ROUTES.PROFILE} exact={true}>
+                        <ProfilePage />
+                    </Route>
+                    <Route path='/ingredient/:id'>
+                        <IngredientDetailsPage />
+                    </Route>
+
+                    <Route path="*">
+                        <Error404Page />
+                    </Route>
+                </Switch>
             </div>
         </div>
     )
