@@ -3,8 +3,6 @@ export interface IUserState {
         email: string
         name: string
     }
-    // accessToken: string
-    // refreshToken: string
 
     forgotPasswordForm: {
         email: string
@@ -55,13 +53,6 @@ export interface IUserState {
 }
 
 export const initialState: IUserState = {
-    // user: {
-    //     email: '',
-    //     name: '',
-    // },
-    // accessToken: '',
-    // refreshToken: '',
-
     forgotPasswordForm: {
         email: '',
     },

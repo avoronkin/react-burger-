@@ -169,4 +169,3 @@ export const selectUpdateUser = (store: RootState) => {
 export const selectIsAuthenticated = (store: RootState) => {
     return !!store[statePath].user 
 }
-

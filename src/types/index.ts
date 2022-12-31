@@ -28,7 +28,3 @@ export interface AppLocation {
     background?: Location
     from?: Location
 }
-
-
-
-

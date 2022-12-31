@@ -245,6 +245,3 @@ export const normaApi = {
     getUser,
     updateUser,
 }
-
-
-

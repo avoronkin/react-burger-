@@ -35,4 +35,3 @@ export const Modal = ({ handleClose, title, children }: {
         </Portal>
     )
 }
-
