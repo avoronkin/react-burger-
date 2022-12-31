@@ -1,46 +1,54 @@
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
-import { forgotPassworFormChange, forgotPassword } from '../../services/store/forgot-password/actions'
+import { forgotPassword, forgotPasswordFormChanged } from '../../store/user/actions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { ErrorNote } from '../error'
 import { HelpLink } from '../help-link/help-link'
+import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
 import { Redirect } from 'react-router-dom'
-import { selectForgotPassword } from '../../services/store/forgot-password/selectors'
+import { selectForgotPassword } from '../../store/user/selectors'
 
 export const ForgotPassword = () => {
     const dispatch = useAppDispatch()
     
-    const { form, forgotPasswordResponse, forgotPasswordRequest } = useAppSelector(selectForgotPassword)
+    const { 
+        forgotPasswordForm, 
+        forgotPasswordFormValid,
+        forgotPasswordRequest,
+        forgotPasswordSuccess, 
+    } = useAppSelector(selectForgotPassword)
     
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value} = event.target
-        dispatch(forgotPassworFormChange(name, value))
+        dispatch(forgotPasswordFormChanged({ name, value }))
     }
 
-    const handleSubmit = () => {
-        dispatch(forgotPassword({
-            email: form.fields.email
-        }))
+    const onSubmit = () => {
+        dispatch(forgotPassword(forgotPasswordForm))
     }
     
     return (
         <>
-            {forgotPasswordResponse?.message && <Redirect to={ROUTES.RESET_PASSWORD} /> }
+            {forgotPasswordSuccess && <Redirect to={ROUTES.RESET_PASSWORD} /> }
             <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
+            {!forgotPasswordSuccess && <ErrorNote>Ошибка при сбросе пароля</ErrorNote>}
+            {forgotPasswordRequest && <LoadingSpinner text='Сбрасываем пароль'/>}
             <EmailInput
-                value={form.fields.email}
-                onChange={handleChange}
-                name={'email'}
+                name='email'
+                value={forgotPasswordForm.email}
+                onChange={onChange}
                 isIcon={false}
                 extraClass='m-2'
                 placeholder='Укажите e-mail'
+                disabled={forgotPasswordRequest}
             />
             <Button 
                 htmlType='button'
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
-                onClick={handleSubmit}
-                disabled={forgotPasswordRequest || !form.fields.email}
+                disabled={forgotPasswordRequest || !forgotPasswordFormValid}
+                onClick={onSubmit}
             >
                 Восстановить
             </Button>

@@ -4,3 +4,20 @@
     cursor: pointer;
     position: relative;
 }
+
+.ingredientLink {
+    
+    color: white;
+    text-decoration: none;
+}
+
+.ingredientPrice {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* .ingredientTitle {
+    color: white;
+    text-decoration: none;
+} */

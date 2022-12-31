@@ -2,7 +2,7 @@ import {
     ConstructorElement,
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import {  moveBurgerIngredient, removeBurgerIngredient } from '../../services/store/burger-constructor/actions'
+import {  moveBurgerIngredient, removeBurgerIngredient } from '../../store/burger-constructor/actions'
 import { useDrag, useDrop } from 'react-dnd'
 import { DND_TYPES } from '../../constants'
 import { IIngredient } from '../../types'
@@ -17,7 +17,7 @@ interface DragItem {
 
 export const InternalIngredient = ({ ingredient, index }: { ingredient: IIngredient, index: number }) => {
     const dispatch = useAppDispatch()
-    const deleteHandler = () => dispatch(removeBurgerIngredient(ingredient))
+    const deleteHandler = () => dispatch(removeBurgerIngredient({ ingredient }))
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -46,7 +46,10 @@ export const InternalIngredient = ({ ingredient, index }: { ingredient: IIngredi
                 return
             }
 
-            dispatch(moveBurgerIngredient(hoverIndex, dragIndex))
+            dispatch(moveBurgerIngredient({ 
+                newIndex: hoverIndex, 
+                oldIndex: dragIndex 
+            }))
 
             item.index = hoverIndex
         },

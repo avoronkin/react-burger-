@@ -1,10 +1,8 @@
-import { Centered } from '../../components/centered'
+import { Profile } from '../../components/profile'
 
 export const ProfilePage = () => {
 
     return (
-        <Centered>
-            <div>ProfilePage</div>
-        </Centered>
+        <Profile />
     )
 }

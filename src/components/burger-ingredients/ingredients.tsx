@@ -1,6 +1,6 @@
 import { IIngredient } from '../../types'
 import { Ingredient } from './ingredient'
-import { setActiveTab } from '../../services/store/burger-ingredients/actions'
+import { setActiveTab } from '../../store/burger-ingredients/actions'
 import styles from './ingredients.module.css'
 import { useAppDispatch } from '../../hooks'
 import { useEffect } from 'react'
@@ -18,7 +18,7 @@ export const Ingredients = ({ name, type, ingredients }: {
 
     useEffect(() => {
         const intersectionRatio = inView ? entry?.intersectionRatio || 0 : 0
-        dispatch(setActiveTab(type, intersectionRatio))
+        dispatch(setActiveTab({ id: type, intersectionRatio }))
     }, [inView, type, entry, dispatch])
 
     return (

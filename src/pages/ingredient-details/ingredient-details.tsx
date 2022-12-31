@@ -1,6 +1,11 @@
+import { Centered } from '../../components/centered'
+import { IngredientDetails } from '../../components/ingredient-details'
+
 export const IngredientDetailsPage = () => {
 
     return (
-        <div>IngredientPage</div>
+        <Centered>
+            <IngredientDetails />
+        </Centered>
     )
 }

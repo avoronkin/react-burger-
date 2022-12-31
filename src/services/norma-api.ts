@@ -4,36 +4,40 @@ import { IIngredient } from '../types'
 async function request<T>({ url, method }: {
     url: string,
     method: 'GET',
+    token?: string
 }): Promise<T>
 async function request<T, K>({ url, method, body }: {
     url: string,
-    method: 'POST',
+    method: 'POST' | 'PATH',
     body?: K
+    token?: string
 }): Promise<T>
-async function request<T, K>({ url, method, body }: {
+async function request<T, K>({ url, method, body, token }: {
     url: string,
-    method: 'GET' | 'POST',
+    method: 'GET' | 'POST' | 'PATH',
     body?: K
+    token?: string
 }): Promise<T> {
+    const headers = new Headers({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Referrer-Policy': 'no-referrer',
+    })
+    if (token) {
+        headers.set('Authorization', token)
+    }
+
     const response = await fetch(url, {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Referrer-Policy': 'no-referrer',
-        },
+        headers,
         method,
         body: body ? JSON.stringify(body) : undefined,
     })
 
-    if (!response.ok) {
-        throw new Error(`HTTP status error: ${response.status}`)
-    }
-
     const json = await response.json()
-    if (json.success) {
+    if (response.ok) {
         return json
     } else {
-        throw new Error('request error')
+        return Promise.reject(new Error(json.message))
     }
 }
 
@@ -61,13 +65,15 @@ export interface ICreateOrderResponse {
     order: {
         number: number
     }
+    message?: string
 }
 
-export async function createOrder(params: ICreateOrderRequest): Promise<ICreateOrderResponse> {
+export async function createOrder(params: ICreateOrderRequest, token: string): Promise<ICreateOrderResponse> {
     return request<ICreateOrderResponse, ICreateOrderRequest>({
         url: `${BASE_URL}/orders`,
         method: 'POST',
         body: params,
+        token,
     })
 }
 
@@ -121,6 +127,7 @@ export interface IRegisterResponse {
     },
     accessToken: string
     refreshToken: string
+    message?: string
 }
 
 export async function register(params: IRegisterRequest): Promise<IRegisterResponse> {
@@ -144,6 +151,7 @@ export interface ILoginResponse {
         email: string
         name: string
     }
+    message?: string
 }
 export async function login(params: ILoginRequest): Promise<ILoginResponse> {
     return request<ILoginResponse, ILoginRequest>({
@@ -159,7 +167,7 @@ export interface ILogoutRequest {
 }
 export interface ILogoutResponse {
     success: boolean,
-    message: string
+    message?: string
 }
 export async function logout(params: ILogoutRequest): Promise<ILogoutResponse> {
     return request<ILogoutResponse, ILogoutRequest>({
@@ -176,6 +184,7 @@ export interface ITokenRefreshResponse {
     success: boolean
     accessToken: string
     refreshToken: string
+    message?: string
 }
 export async function refreshToken(params: ITokenRefreshRequest): Promise<ITokenRefreshResponse> {
     return request<ITokenRefreshResponse, ITokenRefreshRequest>({
@@ -185,16 +194,56 @@ export async function refreshToken(params: ITokenRefreshRequest): Promise<IToken
     })
 }
 
+export interface IGetUserResponse {
+    success: boolean
+    user: {
+        email: string
+        name: string
+    }
+    message?: string
+}
+
+export async function getUser(token: string): Promise<IGetUserResponse> {
+    return request<IGetUserResponse>({
+        url: `${BASE_URL}/auth/user`,
+        method: 'GET',
+        token,
+    })
+}
+
+export interface IUpdateUserRequest {
+    email: string
+    name: string
+    password: string
+}
+export interface IUpdateUserResponse {
+    success: boolean
+    user: {
+        email: string
+        name: string
+    }
+    message?: string
+}
+export async function updateUser(params: IUpdateUserRequest, token: string): Promise<IUpdateUserResponse> {
+    return request<IUpdateUserResponse, IUpdateUserRequest>({
+        url: `${BASE_URL}/auth/user`,
+        method: 'PATH',
+        body: params,
+        token,
+    })
+}
 
 export const normaApi = {
     getIngredientsList,
     createOrder,
-    forgotPassword,
-    resetPassword,
     register,
     login,
-    logout,
     refreshToken,
+    logout,
+    forgotPassword,
+    resetPassword,
+    getUser,
+    updateUser,
 }
 
 

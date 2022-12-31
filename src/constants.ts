@@ -12,5 +12,11 @@ export const ROUTES = {
     FORGOT_PASSWORD: '/forgot-password',
     RESET_PASSWORD: '/reset-password',
     PROFILE: '/profile',
-    ORDERS: '/orders'
+    ORDERS: '/profile/orders',
+    ORDER: '/profile/orders/:id',
+    LOGOUT: '/logout',
+    INGREDIENT_DETAILS: '/ingredients/:id'
+
 }
+
+export const SESSION_TIME = 24 * 60 * 60

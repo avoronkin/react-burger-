@@ -3,57 +3,64 @@ import {
     Input,
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { resetPassworFormChange, resetPassword } from '../../services/store/reset-password/actions'
+import { resetPassword, resetPasswordFormChanged } from '../../store/user/actions'
+import { selectForgotPassword, selectResetPassword } from '../../store/user/selectors'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { ErrorNote } from '../error'
 import { HelpLink } from '../help-link/help-link'
+import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
 import { Redirect } from 'react-router-dom'
-import { selectForgotPassword } from '../../services/store/forgot-password/selectors'
-import { selectResetPassword } from '../../services/store/reset-password/selectors'
 
 export const ResetPassword = () => {
     const dispatch = useAppDispatch()
 
-    const { form, resetPasswordRequest } = useAppSelector(selectResetPassword)
-    const { forgotPasswordResponse } = useAppSelector(selectForgotPassword)
+    const { 
+        resetPasswordForm, 
+        resetPasswordFormValid,
+        resetPasswordRequest,
+        resetPasswordError,
+    } = useAppSelector(selectResetPassword)
+    const { forgotPasswordSuccess } = useAppSelector(selectForgotPassword)
     
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value} = event.target
-        dispatch(resetPassworFormChange(name, value))
+        dispatch(resetPasswordFormChanged({ name, value }))
     }
 
-    const handleSubmit = () => {
-        dispatch(resetPassword({
-            password: form.fields.password,
-            token: form.fields.token,
-        }))
+    const onSubmit = () => {
+        dispatch(resetPassword(resetPasswordForm))
     }
 
     return (
         <>
-            {!forgotPasswordResponse && <Redirect to={ROUTES.FORGOT_PASSWORD}/>}
+            {!forgotPasswordSuccess && <Redirect to={ROUTES.FORGOT_PASSWORD}/>}
             <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
+            {resetPasswordError && <ErrorNote>Ошибка при сбросе пароля</ErrorNote>}
+            {resetPasswordRequest && <LoadingSpinner text='Сбрасываем пароль'/> }
             <PasswordInput
-                onChange={handleChange}
-                value={form.fields.password}
                 name={'password'}
+                value={resetPasswordForm.password}
+                onChange={onChange}
                 extraClass='m-2'
                 placeholder='Введите новый пароль'
+                disabled={resetPasswordRequest}
             />
             <Input
-                value={form.fields.token}
                 name='token'
-                onChange={handleChange}
+                value={resetPasswordForm.token}
+                onChange={onChange}
                 extraClass='m-2'
                 placeholder='Введите код из письма'
+                disabled={resetPasswordRequest}
             />
             <Button
                 htmlType='button'
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
-                onClick={handleSubmit}
-                disabled={resetPasswordRequest}
+                onClick={onSubmit}
+                disabled={resetPasswordRequest || !resetPasswordFormValid}
             >
                 Сохранить
             </Button>
