@@ -11,6 +11,7 @@ import { HelpLink } from '../help-link/help-link'
 import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
 import { Redirect } from 'react-router-dom'
+import styles from './reset-password.module.css'
 
 export const ResetPassword = () => {
     const dispatch = useAppDispatch()
@@ -28,13 +29,14 @@ export const ResetPassword = () => {
         dispatch(resetPasswordFormChanged({ name, value }))
     }
 
-    const onSubmit = () => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         dispatch(resetPassword(resetPasswordForm))
     }
 
     return (
-        <>
-            {!forgotPasswordSuccess && <Redirect to={ROUTES.FORGOT_PASSWORD}/>}
+        <form className={styles.form} onSubmit={onSubmit}>
+            {/* {!forgotPasswordSuccess && <Redirect to={ROUTES.FORGOT_PASSWORD}/>} */}
             <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
             {resetPasswordError && <ErrorNote>Ошибка при сбросе пароля</ErrorNote>}
             {resetPasswordRequest && <LoadingSpinner text='Сбрасываем пароль'/> }
@@ -55,11 +57,10 @@ export const ResetPassword = () => {
                 disabled={resetPasswordRequest}
             />
             <Button
-                htmlType='button'
+                htmlType='submit'
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
-                onClick={onSubmit}
                 disabled={resetPasswordRequest || !resetPasswordFormValid}
             >
                 Сохранить
@@ -70,6 +71,6 @@ export const ResetPassword = () => {
                 linkText='Войти'
                 to={ROUTES.LOGIN}
             />
-        </>
+        </form>
     )
 }

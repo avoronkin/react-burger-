@@ -10,6 +10,7 @@ import { selectGetUser, selectProfile, selectUpdateUser } from '../../store/user
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { ErrorNote } from '../error'
 import { LoadingSpinner } from '../loading-spinner'
+import styles from './profile-form.module.css'
 import { useEffect } from 'react'
 
 export const ProfileForm = () => {
@@ -39,11 +40,13 @@ export const ProfileForm = () => {
         dispatch(profileEditFormChanged({ name, value }))
     }
 
-    const submitForm = () => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         dispatch(updateUser(updateUserForm))
     }
 
-    const resetForm = () => {
+    const onReset = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         if (profile) {
             dispatch(initProfileEditForm(profile))
         }
@@ -51,7 +54,7 @@ export const ProfileForm = () => {
 
     return (
 
-        <>
+        <form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
             {getUserRequest && <LoadingSpinner text='Загружаем данные пользователя'/>}
             {getUserError && <ErrorNote>Ошибка при загрузке профиля</ErrorNote>}
             {updateUserRequest && <LoadingSpinner text='Обновляем данные пользователя'/>}
@@ -80,26 +83,26 @@ export const ProfileForm = () => {
                 extraClass='m-2'
                 disabled={getUserRequest || updateUserRequest}
             />
-            <Button
-                htmlType='button'
-                type='primary'
-                extraClass='mt-2 mb-15 ml-2'
-                size='medium'
-                disabled={getUserRequest || updateUserRequest || !updateUserFormChanged || !!updateUserFormInvalid}
-                onClick={submitForm}
-            >
-                Сохранить
-            </Button>
-            <Button
-                htmlType='button'
-                type='primary'
-                extraClass='mt-2 mb-15 ml-2'
-                size='medium'
-                disabled={getUserRequest || updateUserRequest || !updateUserFormChanged}
-                onClick={resetForm}
-            >
-                Отмена
-            </Button>
-        </>
+            <div>
+                <Button
+                    htmlType='submit'
+                    type='primary'
+                    extraClass='mt-2 mb-15 ml-2'
+                    size='medium'
+                    disabled={getUserRequest || updateUserRequest || !updateUserFormChanged || !!updateUserFormInvalid}
+                >
+                    Сохранить
+                </Button>
+                <Button
+                    htmlType='reset'
+                    type='primary'
+                    extraClass='mt-2 mb-15 ml-2'
+                    size='medium'
+                    disabled={getUserRequest || updateUserRequest || !updateUserFormChanged}
+                >
+                    Отмена
+                </Button>
+            </div>
+        </form>
     )
 }

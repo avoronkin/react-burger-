@@ -10,13 +10,14 @@ import { HelpLink } from '../help-link/help-link'
 import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
 import { selectLogin } from '../../store/user/selectors'
+import styles from './login.module.css'
 
 export const Login = () => {
     const {
         loginForm,
+        loginFormValid,
         loginRequest,
         loginError,
-        loginFormValid,
     } = useAppSelector(selectLogin)
     const dispatch = useAppDispatch()
     
@@ -25,12 +26,13 @@ export const Login = () => {
         dispatch(loginFormChanged({ name, value }))
     }
 
-    const onSubmit = () => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         dispatch(login(loginForm))
     }
 
     return (
-        <>
+        <form className={styles.form} onSubmit={onSubmit}>
             <h2 className='text text_type_main-medium'>Вход</h2>
             {loginRequest && <LoadingSpinner text='Авторизуем пользователя'/>}
             {loginError && <ErrorNote>Ошибка при авторизации</ErrorNote>}
@@ -50,12 +52,11 @@ export const Login = () => {
                 disabled={loginRequest}
             />
             <Button
-                htmlType='button'
+                htmlType='submit'
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
                 disabled={loginRequest || !loginFormValid}
-                onClick={onSubmit}
             >
                 Войти
             </Button>
@@ -70,6 +71,6 @@ export const Login = () => {
                 linkText='Восстановить пароль'
                 to={ROUTES.FORGOT_PASSWORD}
             />
-        </>
+        </form>
     )
 }

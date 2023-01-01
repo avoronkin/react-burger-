@@ -7,6 +7,7 @@ import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
 import { Redirect } from 'react-router-dom'
 import { selectForgotPassword } from '../../store/user/selectors'
+import styles from './forgot-password.module.css'
 
 export const ForgotPassword = () => {
     const dispatch = useAppDispatch()
@@ -15,6 +16,7 @@ export const ForgotPassword = () => {
         forgotPasswordForm, 
         forgotPasswordFormValid,
         forgotPasswordRequest,
+        forgotPasswordError,
         forgotPasswordSuccess, 
     } = useAppSelector(selectForgotPassword)
     
@@ -23,15 +25,16 @@ export const ForgotPassword = () => {
         dispatch(forgotPasswordFormChanged({ name, value }))
     }
 
-    const onSubmit = () => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         dispatch(forgotPassword(forgotPasswordForm))
     }
     
     return (
-        <>
+        <form className={styles.form} onSubmit={onSubmit}>
             {forgotPasswordSuccess && <Redirect to={ROUTES.RESET_PASSWORD} /> }
             <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
-            {!forgotPasswordSuccess && <ErrorNote>Ошибка при сбросе пароля</ErrorNote>}
+            {forgotPasswordError && <ErrorNote>Ошибка при сбросе пароля</ErrorNote>}
             {forgotPasswordRequest && <LoadingSpinner text='Сбрасываем пароль'/>}
             <EmailInput
                 name='email'
@@ -43,12 +46,11 @@ export const ForgotPassword = () => {
                 disabled={forgotPasswordRequest}
             />
             <Button 
-                htmlType='button'
+                htmlType='submit'
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
                 disabled={forgotPasswordRequest || !forgotPasswordFormValid}
-                onClick={onSubmit}
             >
                 Восстановить
             </Button>
@@ -58,6 +60,6 @@ export const ForgotPassword = () => {
                 linkText='Войти'
                 to={ROUTES.LOGIN}
             />
-        </>
+        </form>
     )
 }

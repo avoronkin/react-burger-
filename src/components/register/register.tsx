@@ -11,6 +11,7 @@ import { HelpLink } from '../help-link/help-link'
 import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
 import { selectRegister } from '../../store/user/selectors'
+import styles from './register.module.css'
 
 export const Register = () => {
     const {
@@ -26,12 +27,13 @@ export const Register = () => {
         dispatch(registerFormChanged({ name, value }))
     }
 
-    const onSubmit = () => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         dispatch(register(registerForm))
     }
 
     return (
-        <>
+        <form className={styles.form} onSubmit={onSubmit}>
             <h2 className='text text_type_main-medium'>Регистрация</h2>
             {registerRequest && <LoadingSpinner text='Создаём пользователя' />}
             {registerError && <ErrorNote>Ошибка при создании пользователя</ErrorNote>}
@@ -59,12 +61,11 @@ export const Register = () => {
                 disabled={registerRequest}
             />
             <Button
-                htmlType='button'
+                htmlType='submit'
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
                 disabled={registerRequest || !registerFormValid}
-                onClick={onSubmit}
             >
                 Зарегистрироваться
             </Button>
@@ -73,6 +74,6 @@ export const Register = () => {
                 linkText='Войти'
                 to={ROUTES.LOGIN}
             />
-        </>
+        </form>
     )
 }

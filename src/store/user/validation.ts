@@ -19,5 +19,5 @@ export const nameIsValid = (name: string): boolean => {
 }
 
 export const tokenIsValid = (token: string): boolean => {
-    return !!(token && token.length === 6)
+    return !!(token)
 }
