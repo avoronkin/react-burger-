@@ -9,16 +9,6 @@ import {
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getCookie } from '../../services/cookie'
 import { statePath } from './state'
-import { userSlice } from './slice'
-
-export const {
-    registerFormChanged,
-    loginFormChanged,
-    forgotPasswordFormChanged,
-    resetPasswordFormChanged,
-    profileEditFormChanged,
-    initProfileEditForm,
-} = userSlice.actions
 
 export const register = createAsyncThunk(
     `${statePath}/register`,

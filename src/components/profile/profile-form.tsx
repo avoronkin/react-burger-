@@ -5,81 +5,101 @@ import {
     Input,
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { getUser, initProfileEditForm, profileEditFormChanged, updateUser } from '../../store/user/actions'
-import { selectGetUser, selectProfile, selectUpdateUser } from '../../store/user/selectors'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { emailIsValid, nameIsValid, passwordIsValid, } from '../../store/user/validation'
+import { getUser, updateUser } from '../../store/user/actions'
+import { selectGetUser, selectUpdateUser } from '../../store/user/selectors'
+import { useAppDispatch, useAppSelector, useForm } from '../../hooks'
 import { ErrorNote } from '../error'
 import { LoadingSpinner } from '../loading-spinner'
 import styles from './profile-form.module.css'
 import { useEffect } from 'react'
 
+interface IProfileForm {
+    name: string
+    email: string
+    password: string
+}
+
 export const ProfileForm = () => {
     const dispatch = useAppDispatch()
-    const profile = useAppSelector(selectProfile)
-    const { getUserRequest, getUserError } = useAppSelector(selectGetUser)
+    const { user, getUserRequest, getUserError } = useAppSelector(selectGetUser)
+    const { updateUserRequest, updateUserError } = useAppSelector(selectUpdateUser)
+
     const {
-        updateUserForm,
-        updateUserFormChanged,
-        updateUserFormInvalid,
-        updateUserRequest,
-        updateUserError
-    } = useAppSelector(selectUpdateUser)
+        values,
+        setValues,
+        handleChange,
+        handleSubmit,
+        isValid,
+    } = useForm<IProfileForm>({
+        initialState: {
+            name: '',
+            email: '',
+            password: '',
+        },
+        handleSubmit: (values) => dispatch(updateUser(values)),
+        isValid: (values) => {
+            return nameIsValid(values.name)
+                && emailIsValid(values.email)
+                && passwordIsValid(values.password)
+        },
+    })
+
+    const resetFormChanges = () => {
+        setValues({
+            name: user?.name || '',
+            email: user?.email || '',
+            password: ''
+        })
+    }
+
+    useEffect(() => {
+        if (user) {
+            resetFormChanges()
+        }
+    }, [user])
 
     useEffect(() => {
         dispatch(getUser())
     }, [dispatch])
 
-    useEffect(() => {
-        if (profile) {
-            dispatch(initProfileEditForm(profile))
-        }
-    }, [profile])
 
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target
-        dispatch(profileEditFormChanged({ name, value }))
-    }
-
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        dispatch(updateUser(updateUserForm))
-    }
-
-    const onReset = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        if (profile) {
-            dispatch(initProfileEditForm(profile))
-        }
-    }
+    const updateUserFormChanged = !!values.password
+        || values.email !== user?.email
+        || values.name !== user?.name
 
     return (
 
-        <form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
-            {getUserRequest && <LoadingSpinner text='Загружаем данные пользователя'/>}
+        <form
+            className={styles.form}
+            onSubmit={handleSubmit}
+            onReset={() => resetFormChanges()}
+        >
+            {getUserRequest && <LoadingSpinner text='Загружаем данные пользователя' />}
             {getUserError && <ErrorNote>Ошибка при загрузке профиля</ErrorNote>}
-            {updateUserRequest && <LoadingSpinner text='Обновляем данные пользователя'/>}
+            {updateUserRequest && <LoadingSpinner text='Обновляем данные пользователя' />}
             {updateUserError && <ErrorNote>Ошибка при обноволении профиля</ErrorNote>}
-            {updateUserFormChanged && updateUserFormInvalid && <ErrorNote>{updateUserFormInvalid}</ErrorNote>}
+            {updateUserFormChanged && !isValid && <ErrorNote>Ошибка валидации</ErrorNote>}
             <Input
                 name='name'
-                value={updateUserForm.name}
-                onChange={onChange}
+                value={values.name}
+                onChange={handleChange}
                 extraClass='m-2'
                 placeholder='Имя'
                 disabled={getUserRequest || updateUserRequest}
             />
             <EmailInput
                 name='email'
-                value={updateUserForm.email}
-                onChange={onChange}
+                value={values.email}
+                onChange={handleChange}
                 isIcon={false}
                 extraClass='m-2'
                 disabled={getUserRequest || updateUserRequest}
             />
             <PasswordInput
                 name='password'
-                value={updateUserForm.password}
-                onChange={onChange}
+                value={values.password}
+                onChange={handleChange}
                 extraClass='m-2'
                 disabled={getUserRequest || updateUserRequest}
             />
@@ -89,7 +109,7 @@ export const ProfileForm = () => {
                     type='primary'
                     extraClass='mt-2 mb-15 ml-2'
                     size='medium'
-                    disabled={getUserRequest || updateUserRequest || !updateUserFormChanged || !!updateUserFormInvalid}
+                    disabled={!isValid || getUserRequest || updateUserRequest || !updateUserFormChanged}
                 >
                     Сохранить
                 </Button>

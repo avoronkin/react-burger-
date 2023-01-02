@@ -1,55 +1,38 @@
-import { Redirect, Route } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import {
+    Redirect,
+    Route,
+    RouteProps,
+} from 'react-router-dom'
+import { useAppLocation, useAppSelector } from '../../hooks'
 import { ROUTES } from '../../constants'
-import { getUser } from '../../store/user/actions'
 import { selectIsAuthenticated } from '../../store/user/selectors'
-import { useEffect } from 'react'
 
-export const ProtectedRoute = ({ children, path, exact, role = 'user' }: {
-    children?: React.ReactNode,
-    path: string,
-    exact: boolean,
+type ProtectedRouteParams = RouteProps & {
     role?: 'user' | 'guest'
-}) => {
-    const dispatch = useAppDispatch()
+}
+
+export const ProtectedRoute = ({ children, role = 'user', ...props }: ProtectedRouteParams) => {
     const isAuthenticated = useAppSelector(selectIsAuthenticated)
-    useEffect(() => {
-        dispatch(getUser())
-    }, [])
+    const location = useAppLocation()
 
-    switch (role) {
-        case 'user':
-            return (
-                <Route
-                    path={path}
-                    exact={exact}
-                    render={({ location }) => {
-                        return isAuthenticated
-                            ? (children)
-                            : <Redirect
-                                to={{
-                                    pathname: ROUTES.LOGIN,
-                                    state: { from: location }
-                                }} />
-                    }}
-                />
-            )
-
-        default:
-            return (
-                <Route
-                    path={path}
-                    exact={exact}
-                    render={() => {
-                        return !isAuthenticated
-                            ? (children)
-                            : <Redirect
-                                to={{
-                                    pathname: ROUTES.MAIN
-                                }} />
-                    }}
-                />
-            )
-
+    if (role === 'guest' && isAuthenticated) {
+        console.log(`authenticated guest, redirecting to ${location?.state?.from || ROUTES.MAIN}, from ${location.pathname}`)
+        return (
+            <Route {...props}>
+                <Redirect to={location?.state?.from || ROUTES.MAIN} />
+            </Route>
+        )
     }
+
+    if (role === 'user' && !isAuthenticated) {
+        console.log(`not authenticated user, redirecting to ${ROUTES.LOGIN}, from ${location.pathname}`)
+        return (
+            <Route {...props}>
+                <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: location } }} />
+            </Route>
+        )
+    }
+
+    console.log(`role ${role} ok`)
+    return (<Route {...props}>{children}</Route>)
 }

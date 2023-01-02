@@ -22,6 +22,7 @@ import { Modal } from '../modal'
 import { ProtectedRoute } from '../protected-route'
 import { ROUTES } from '../../constants'
 import { getIngredients } from '../../store/burger-ingredients/actions'
+import { getUser } from '../../store/user/actions'
 import styles from './app.module.css'
 import { useEffect } from 'react'
 
@@ -29,6 +30,9 @@ export const App = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(getIngredients())
+    }, [dispatch])
+    useEffect(() => {
+        dispatch(getUser())
     }, [dispatch])
 
     const location = useAppLocation()
@@ -46,6 +50,7 @@ export const App = () => {
                     <Route path={ROUTES.INGREDIENT_DETAILS} exact>
                         <IngredientDetailsPage />
                     </Route>
+                    
                     <ProtectedRoute path={ROUTES.LOGIN} exact role='guest'>
                         <LoginPage />
                     </ProtectedRoute>
@@ -58,6 +63,7 @@ export const App = () => {
                     <ProtectedRoute path={ROUTES.RESET_PASSWORD} exact role='guest'>
                         <ResetPasswordPage />
                     </ProtectedRoute>
+                    
                     <ProtectedRoute path={ROUTES.LOGOUT} exact role='user'>
                         <LogoutPage />
                     </ProtectedRoute>
@@ -67,6 +73,7 @@ export const App = () => {
                     <ProtectedRoute path={ROUTES.ORDERS} exact role='user'>
                         <OrdersPage />
                     </ProtectedRoute>
+                    
                     <Route path="*">
                         <Error404Page />
                     </Route>

@@ -3,51 +3,59 @@ import {
     EmailInput,
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { login, loginFormChanged } from '../../store/user/actions'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { emailIsValid, passwordIsValid } from '../../store/user/validation'
+import { useAppDispatch, useAppSelector, useForm } from '../../hooks'
 import { ErrorNote } from '../error'
 import { HelpLink } from '../help-link/help-link'
 import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
+import { login } from '../../store/user/actions'
 import { selectLogin } from '../../store/user/selectors'
 import styles from './login.module.css'
 
-export const Login = () => {
-    const {
-        loginForm,
-        loginFormValid,
-        loginRequest,
-        loginError,
-    } = useAppSelector(selectLogin)
-    const dispatch = useAppDispatch()
-    
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target
-        dispatch(loginFormChanged({ name, value }))
-    }
+interface ILoginForm {
+    email: string
+    password: string
+}
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        dispatch(login(loginForm))
-    }
+export const Login = () => {
+    const { loginRequest, loginError } = useAppSelector(selectLogin)
+    const dispatch = useAppDispatch()
+
+    const { 
+        values, 
+        handleChange, 
+        handleSubmit,
+        isValid,
+    } = useForm<ILoginForm>({
+        initialState: {
+            email: '',
+            password: ''
+        },
+        handleSubmit: (values) => dispatch(login(values)),
+        isValid: (values) => {
+            return emailIsValid(values.email) 
+                && passwordIsValid(values.password)
+        }
+    })
 
     return (
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
             <h2 className='text text_type_main-medium'>Вход</h2>
-            {loginRequest && <LoadingSpinner text='Авторизуем пользователя'/>}
+            {loginRequest && <LoadingSpinner text='Авторизуем пользователя' />}
             {loginError && <ErrorNote>Ошибка при авторизации</ErrorNote>}
             <EmailInput
                 name='email'
-                value={loginForm.email}
-                onChange={onChange}
+                value={values.email}
+                onChange={handleChange}
                 isIcon={false}
                 extraClass='m-2'
                 disabled={loginRequest}
             />
             <PasswordInput
                 name='password'
-                value={loginForm.password}
-                onChange={onChange}
+                value={values.password}
+                onChange={handleChange}
                 extraClass='m-2'
                 disabled={loginRequest}
             />
@@ -56,7 +64,7 @@ export const Login = () => {
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
-                disabled={loginRequest || !loginFormValid}
+                disabled={!isValid || loginRequest}
             >
                 Войти
             </Button>

@@ -4,35 +4,19 @@ export interface IUserState {
         name: string
     }
 
-    forgotPasswordForm: {
-        email: string
-    }
     forgotPasswordRequest: boolean
     forgotPasswordError: boolean
     forgotPasswordSuccess: boolean
 
-    registerForm: {
-        email: string
-        password: string
-        name: string
-    },
-    registerRequest: boolean
-    registerError: boolean
-
-    loginForm: {
-        password: string
-        email: string
-    }
-    loginRequest: boolean
-    loginError: boolean
-
-    resetPasswordForm: {
-        password: string
-        token: string
-    },
     resetPasswordRequest: boolean
     resetPasswordError: boolean
     resetPasswordSuccess: boolean
+    
+    registerRequest: boolean
+    registerError: boolean
+
+    loginRequest: boolean
+    loginError: boolean
 
     refreshTokenRequest: boolean
     refreshTokenError: boolean
@@ -43,42 +27,21 @@ export interface IUserState {
     getUserRequest: boolean
     getUserError: boolean
 
-    updateUserForm: {
-        email: string
-        name: string
-        password: string
-    }
     updateUserRequest: boolean
     updateUserError: boolean
 }
 
 export const initialState: IUserState = {
-    forgotPasswordForm: {
-        email: '',
-    },
     forgotPasswordRequest: false,
     forgotPasswordError: false,
     forgotPasswordSuccess: false,
 
-    registerForm: {
-        email: '',
-        password: '',
-        name: '',
-    },
     registerRequest: false,
     registerError: false,
 
-    loginForm: {
-        password: '',
-        email: '',
-    },
     loginRequest: false,
     loginError: false,
 
-    resetPasswordForm: {
-        password: '',
-        token: '',
-    },
     resetPasswordRequest: false,
     resetPasswordError: false,
     resetPasswordSuccess: false,
@@ -92,11 +55,6 @@ export const initialState: IUserState = {
     getUserRequest: false,
     getUserError: false,
 
-    updateUserForm: {
-        email: '',
-        name: '',
-        password: '',
-    },
     updateUserRequest: false,
     updateUserError: false,
 }

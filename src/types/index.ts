@@ -24,7 +24,7 @@ export interface IIngredientTab {
     intersectionRatio: number
 }
 
-export interface AppLocation {
+export interface AppLocationState {
     background?: Location
     from?: Location
 }

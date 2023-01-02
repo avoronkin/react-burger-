@@ -1,4 +1,3 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { deleteCookie, setCookie  } from '../../services/cookie'
 import { 
     forgotPassword,
@@ -12,61 +11,12 @@ import {
 } from './actions'
 import { initialState, statePath } from './state'
 import { SESSION_TIME } from '../../constants'
-
-interface FormChangedPayload {
-    name: string
-    value: string
-}
+import { createSlice } from '@reduxjs/toolkit'
 
 export const userSlice = createSlice({
     name: statePath,
     initialState,
     reducers: {
-        registerFormChanged: (state, action: PayloadAction<FormChangedPayload>) => {
-            const { name, value } = action.payload
-            state.registerForm = {
-                ...state.registerForm,
-                [name]: value
-            }
-        },
-        loginFormChanged: (state, action: PayloadAction<FormChangedPayload>) => {
-            const { name, value } = action.payload
-            state.loginForm = {
-                ...state.loginForm,
-                [name]: value
-            }
-        },
-        forgotPasswordFormChanged: (state, action: PayloadAction<FormChangedPayload>) => {
-            const { name, value } = action.payload
-            state.forgotPasswordForm = {
-                ...state.forgotPasswordForm,
-                [name]: value
-            }
-        },
-        resetPasswordFormChanged: (state, action: PayloadAction<FormChangedPayload>) => {
-            const { name, value } = action.payload
-            state.resetPasswordForm = {
-                ...state.resetPasswordForm,
-                [name]: value
-            }
-        },
-
-        profileEditFormChanged: (state, action: PayloadAction<FormChangedPayload>) => {
-            const { name, value } = action.payload
-            state.updateUserForm = {
-                ...state.updateUserForm,
-                [name]: value
-            }
-        },
-        initProfileEditForm: (state, action: PayloadAction<{name: string, email: string}>) => {
-            const { name, email } = action.payload
-            state.updateUserForm = {
-                ...state.updateUserForm,
-                name,
-                email,
-                password: '',
-            }
-        },
     },
     extraReducers: (builder) => {
         builder
@@ -78,8 +28,8 @@ export const userSlice = createSlice({
                 state.registerRequest = false
                 state.registerError = !action.payload.success
                 if (action.payload.success) {
-                    setCookie('accessToken', action.payload.accessToken, { expires: SESSION_TIME })
-                    setCookie('refreshToken', action.payload.refreshToken, { expires: SESSION_TIME })
+                    setCookie('accessToken', action.payload.accessToken, SESSION_TIME)
+                    setCookie('refreshToken', action.payload.refreshToken, SESSION_TIME)
                     state.user = action.payload.user
                 }
             })
@@ -98,8 +48,8 @@ export const userSlice = createSlice({
                 state.loginError = !action.payload.success
 
                 if (action.payload.success) {
-                    setCookie('accessToken', action.payload.accessToken, { expires: SESSION_TIME })
-                    setCookie('refreshToken', action.payload.refreshToken, { expires: SESSION_TIME })
+                    setCookie('accessToken', action.payload.accessToken, SESSION_TIME)
+                    setCookie('refreshToken', action.payload.refreshToken, SESSION_TIME)
                     state.user = action.payload.user
                 }
             })
@@ -117,8 +67,8 @@ export const userSlice = createSlice({
                 state.refreshTokenRequest = false
                 state.refreshTokenError = !action.payload.success
                 if (action.payload.success) {
-                    setCookie('accessToken', action.payload.accessToken, { expires: SESSION_TIME })
-                    setCookie('refreshToken', action.payload.refreshToken, { expires: SESSION_TIME })
+                    setCookie('accessToken', action.payload.accessToken, SESSION_TIME)
+                    setCookie('refreshToken', action.payload.refreshToken, SESSION_TIME)
                 }
             })
             .addCase(refreshToken.rejected, (state) => {
@@ -165,14 +115,17 @@ export const userSlice = createSlice({
             .addCase(resetPassword.pending, (state) => {
                 state.resetPasswordRequest = true
                 state.resetPasswordError = false
+                state.resetPasswordSuccess = false
             })
             .addCase(resetPassword.fulfilled, (state, action) => {
                 state.resetPasswordRequest = false
                 state.resetPasswordError = !action.payload.success
+                state.resetPasswordSuccess = action.payload.success
             })
             .addCase(resetPassword.rejected, (state) => {
                 state.resetPasswordRequest = false
                 state.resetPasswordError = true
+                state.resetPasswordSuccess = false
             })
 
         builder

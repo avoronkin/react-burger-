@@ -3,55 +3,68 @@ import {
     Input,
     PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { resetPassword, resetPasswordFormChanged } from '../../store/user/actions'
+import { passwordIsValid, tokenIsValid } from '../../store/user/validation'
 import { selectForgotPassword, selectResetPassword } from '../../store/user/selectors'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppSelector, useForm } from '../../hooks'
 import { ErrorNote } from '../error'
 import { HelpLink } from '../help-link/help-link'
 import { LoadingSpinner } from '../loading-spinner'
 import { ROUTES } from '../../constants'
 import { Redirect } from 'react-router-dom'
+import { resetPassword } from '../../store/user/actions'
 import styles from './reset-password.module.css'
+
+interface IResetPasswordForm {
+    password: string
+    token: string
+}
 
 export const ResetPassword = () => {
     const dispatch = useAppDispatch()
 
     const { 
-        resetPasswordForm, 
-        resetPasswordFormValid,
         resetPasswordRequest,
         resetPasswordError,
+        resetPasswordSuccess,
     } = useAppSelector(selectResetPassword)
     const { forgotPasswordSuccess } = useAppSelector(selectForgotPassword)
     
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value} = event.target
-        dispatch(resetPasswordFormChanged({ name, value }))
-    }
-
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        dispatch(resetPassword(resetPasswordForm))
-    }
+    const {
+        values,
+        handleChange,
+        handleSubmit,
+        isValid,
+    } = useForm<IResetPasswordForm>({
+        initialState: {
+            password: '',
+            token: '',
+        },
+        handleSubmit: (values) => dispatch(resetPassword(values)),
+        isValid: (values) => {
+            return passwordIsValid(values.password) 
+                && tokenIsValid(values.token)
+        }
+    })
 
     return (
-        <form className={styles.form} onSubmit={onSubmit}>
-            {/* {!forgotPasswordSuccess && <Redirect to={ROUTES.FORGOT_PASSWORD}/>} */}
+        <form className={styles.form} onSubmit={handleSubmit}>
+            {!forgotPasswordSuccess && <Redirect to={ROUTES.FORGOT_PASSWORD}/>}
+            {resetPasswordSuccess && <Redirect to={ROUTES.MAIN}/>}
             <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
             {resetPasswordError && <ErrorNote>Ошибка при сбросе пароля</ErrorNote>}
             {resetPasswordRequest && <LoadingSpinner text='Сбрасываем пароль'/> }
             <PasswordInput
                 name={'password'}
-                value={resetPasswordForm.password}
-                onChange={onChange}
+                value={values.password}
+                onChange={handleChange}
                 extraClass='m-2'
                 placeholder='Введите новый пароль'
                 disabled={resetPasswordRequest}
             />
             <Input
                 name='token'
-                value={resetPasswordForm.token}
-                onChange={onChange}
+                value={values.token}
+                onChange={handleChange}
                 extraClass='m-2'
                 placeholder='Введите код из письма'
                 disabled={resetPasswordRequest}
@@ -61,7 +74,7 @@ export const ResetPassword = () => {
                 type='primary'
                 extraClass='mt-2 mb-15'
                 size='medium'
-                disabled={resetPasswordRequest || !resetPasswordFormValid}
+                disabled={!isValid || resetPasswordRequest}
             >
                 Сохранить
             </Button>
