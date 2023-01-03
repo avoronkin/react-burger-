@@ -1,0 +1,10 @@
+.nav {
+    list-style-type: none;
+    padding: 0;
+}
+.navItem {
+    text-decoration: none;
+}
+.textColorActive {
+    color: #fff;
+}

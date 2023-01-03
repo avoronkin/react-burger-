@@ -4,34 +4,49 @@ import {
     Logo,
     ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Link } from 'react-router-dom'
+import { ROUTES } from '../../constants'
+import { TopMenuItem } from './top-menu-item'
 import styles from './app-header.module.css'
+
+const topMenuItems: TopMenuItem[] = [
+    {
+        icon: BurgerIcon,
+        to: ROUTES.MAIN,
+        text: 'Конструктор',
+        extraClass: styles.burgerConstructor,
+    },
+    {
+        icon: ListIcon,
+        to: ROUTES.ORDERS,
+        text: 'Лента заказов',
+        extraClass: styles.orderList,
+    },
+    {
+        icon: ProfileIcon,
+        to: ROUTES.PROFILE,
+        text: 'Личный кабинет',
+        extraClass: styles.profile
+    }
+]
 
 export const AppHeader = () => {
 
     return (
         <header>
             <ul className={styles.nav}>
-                <li className={`${styles.nav_item} ${styles.logo} pt-5`}>
-                    <Logo />
+                <li className={`${styles.logo} pt-5`}>
+                    <Link to='/' className={styles.navItem}>
+                        <Logo />
+                    </Link>
                 </li>
-                <li className={`${styles.nav_item} ${styles.constructor} pt-5`}>
-                    <BurgerIcon type='primary' />
-                    <span className='pl-2 text text_type_main-default'>
-                        Конструктор
-                    </span>
-                </li>
-                <li className={`${styles.nav_item} ${styles.order_list} pt-5`}>
-                    <ListIcon type='secondary' />
-                    <span className='pl-2 text text_type_main-default text_color_inactive'>
-                        Лента заказов
-                    </span>
-                </li>
-                <li className={`${styles.nav_item} ${styles.profile} pt-5`}>
-                    <ProfileIcon type='secondary' />
-                    <span className='pl-2 text text_type_main-default text_color_inactive'>
-                        Личный кабинет
-                    </span>
-                </li>
+                {
+                    topMenuItems.map((topMenuItem, index) => {
+                        return (
+                            <TopMenuItem key={index} {...topMenuItem}/>
+                        )
+                    })
+                }
             </ul>
         </header>
     )

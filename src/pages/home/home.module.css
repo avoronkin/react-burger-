@@ -1,0 +1,11 @@
+.main {
+    display: flex;
+}
+
+.burgerIngredients {
+    flex: 50%;
+}
+
+.burgerConstructor {
+    flex: 50%;
+}

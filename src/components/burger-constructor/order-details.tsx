@@ -1,7 +1,7 @@
 import {
     CheckMarkIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { selectOrder } from '../../services/store/order/selectors'
+import { selectOrder } from '../../store/order/selectors'
 import styles from './order-details.module.css'
 import { useAppSelector } from '../../hooks'
 

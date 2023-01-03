@@ -2,18 +2,16 @@ import {
     Counter,
     CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { useAppLocation, useAppSelector } from '../../hooks'
 import { DND_TYPES } from '../../constants'
 import { IIngredient } from '../../types'
-import { addIngredientDetails } from '../../services/store/ingredient-details/actions'
-import { selectIngredientsCount } from '../../services/store/burger-constructor/selectors'
+import { Link } from 'react-router-dom'
+import { selectIngredientsCount } from '../../store/burger-constructor/selectors'
 import styles from './ingredient.module.css'
 import { useDrag } from 'react-dnd'
 
 export const Ingredient = (props: IIngredient) => {
-    const dispatch = useAppDispatch()
-    const openIngredientDetails = () => dispatch(addIngredientDetails(props))
-
+    const location = useAppLocation()
     const counter = useAppSelector(selectIngredientsCount)
     const count = counter[props._id] || 0
 
@@ -27,13 +25,21 @@ export const Ingredient = (props: IIngredient) => {
 
     return (
         <div
-            ref={dragRef}
             className={`${styles.ingredient} text text_type_main-default`}
-            onClick={openIngredientDetails}>
-            {count ? <Counter count={count} size='small' extraClass='m-1' /> : null}
-            <img alt={props.name} src={props.image} />
-            <h3><span className='pr-2'>{props.price}</span><CurrencyIcon type="primary" /></h3>
-            <h4>{props.name} </h4>
+            ref={dragRef}>
+            <Link
+                className={styles.ingredientLink}
+                to={{
+                    pathname: `/ingredients/${props._id}`,
+                    state: { background: location }
+                }}
+            >
+
+                {count ? <Counter count={count} size='small' extraClass='m-1' /> : null}
+                <img alt={props.name} src={props.image} />
+                <h3 className={styles.ingredientPrice}><span className='pr-2'>{props.price}</span><CurrencyIcon type="primary" /></h3>
+                <h4>{props.name} </h4>
+            </Link>
         </div>
     )
 }

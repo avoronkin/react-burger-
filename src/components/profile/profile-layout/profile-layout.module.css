@@ -1,0 +1,11 @@
+.layout {
+    display: flex;
+}
+
+.column1 {
+    flex-grow: 3;
+}
+
+.column2 {
+    flex-grow: 8;
+}

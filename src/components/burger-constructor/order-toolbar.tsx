@@ -1,15 +1,19 @@
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { closeOrderDetails, createOrder } from '../../services/store/order/actions'
+import { closeOrderDetails, createOrder } from '../../store/order/actions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Modal } from '../modal'
 import { OrderDetails } from './order-details'
-import { resetBurgerIngredients } from '../../services/store/burger-constructor/actions'
-import { selectCreateOrderRequest } from '../../services/store/order/selectors'
-import { selectDataForOrder } from '../../services/store/burger-constructor/selectors'
+import { resetBurgerIngredients } from '../../store/burger-constructor/actions'
+import { selectCreateOrderRequest } from '../../store/order/selectors'
+import { selectDataForOrder } from '../../store/burger-constructor/selectors'
+import { selectIsAuthenticated } from '../../store/user/selectors'
 import styles from './order-toolbar.module.css'
+import { useHistory } from 'react-router-dom'
 
 export const OrderToolbar = () => {
+    const history = useHistory()
     const dispatch = useAppDispatch()
+    const isAuthenticated = useAppSelector(selectIsAuthenticated)
     const { burgerCost, canBeOrdered, dataForOrder } = useAppSelector(selectDataForOrder)
     const { createOrderRequest, createOrderError, orderDetailsOpen } = useAppSelector(selectCreateOrderRequest)
 
@@ -19,7 +23,11 @@ export const OrderToolbar = () => {
     }
 
     const submitOrder = () => {
-        dispatch(createOrder(dataForOrder))
+        if (!isAuthenticated) {
+            history.push('/login')
+        } else {
+            dispatch(createOrder(dataForOrder))
+        }
     }
 
     return (

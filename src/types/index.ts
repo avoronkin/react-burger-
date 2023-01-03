@@ -1,3 +1,4 @@
+import { Location } from 'history'
 type IIngredientType = 'bun' | 'sauce' | 'main'
 
 export interface IIngredient {
@@ -23,6 +24,7 @@ export interface IIngredientTab {
     intersectionRatio: number
 }
 
-
-
-
+export interface AppLocationState {
+    background?: Location
+    from?: Location
+}
